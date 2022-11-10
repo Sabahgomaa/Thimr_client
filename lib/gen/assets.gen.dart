@@ -36,6 +36,10 @@ class $AssetsImagesGen {
   AssetGenImage get backRow =>
       const AssetGenImage('assets/images/back_row.png');
 
+  /// File path: assets/images/calling_contact_us.png
+  AssetGenImage get callingContactUs =>
+      const AssetGenImage('assets/images/calling_contact_us.png');
+
   /// File path: assets/images/card1.png
   AssetGenImage get card1 => const AssetGenImage('assets/images/card1.png');
 
@@ -60,6 +64,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/department.png
   AssetGenImage get department =>
       const AssetGenImage('assets/images/department.png');
+
+  /// File path: assets/images/department_item.png
+  AssetGenImage get departmentItem =>
+      const AssetGenImage('assets/images/department_item.png');
 
   /// File path: assets/images/edit.png
   AssetGenImage get edit => const AssetGenImage('assets/images/edit.png');
@@ -106,6 +114,10 @@ class $AssetsImagesGen {
   AssetGenImage get location =>
       const AssetGenImage('assets/images/location.png');
 
+  /// File path: assets/images/location_contact_us.png
+  AssetGenImage get locationContactUs =>
+      const AssetGenImage('assets/images/location_contact_us.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
@@ -115,6 +127,14 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/logot.png
   AssetGenImage get logot => const AssetGenImage('assets/images/logot.png');
+
+  /// File path: assets/images/map_contact_us.png
+  AssetGenImage get mapContactUs =>
+      const AssetGenImage('assets/images/map_contact_us.png');
+
+  /// File path: assets/images/message_contact_us.png
+  AssetGenImage get messageContactUs =>
+      const AssetGenImage('assets/images/message_contact_us.png');
 
   /// File path: assets/images/minus.png
   AssetGenImage get minus => const AssetGenImage('assets/images/minus.png');
@@ -201,6 +221,7 @@ class $AssetsImagesGen {
         alaim,
         back,
         backRow,
+        callingContactUs,
         card1,
         card2,
         changeLanguage,
@@ -208,6 +229,7 @@ class $AssetsImagesGen {
         contentUs,
         delete,
         department,
+        departmentItem,
         edit,
         favorite,
         favoriteIcon,
@@ -220,9 +242,12 @@ class $AssetsImagesGen {
         iconPhone,
         iconReport,
         location,
+        locationContactUs,
         logo,
         logoApp,
         logot,
+        mapContactUs,
+        messageContactUs,
         minus,
         notification,
         order,

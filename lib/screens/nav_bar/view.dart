@@ -20,7 +20,7 @@ class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
   List<Widget> screens = [
     const HomeScreen(),
-    const OrderScreen(),
+     OrderScreen(),
     const NotificationsScreen(),
     const FavoritesScreen(),
     const ProfileScreen(),
@@ -31,6 +31,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       bottomNavigationBar: BottomNavigationBar(
           unselectedItemColor: AppColors.greyLite,
             selectedItemColor: Colors.white,
@@ -46,11 +47,14 @@ class _HomeViewState extends State<HomeView> {
           },
           items: List.generate(icons.length, (index) => BottomNavigationBarItem(
             backgroundColor: const Color(0xff4C8613),
-            icon: Image.asset(
-              'assets/images/${icons[index]}.png',
-              height: 21.h,
-              width: 21.w,
-              color: index == currentIndex ? Colors.white :AppColors.greyLite,
+            icon: Padding(
+              padding:  EdgeInsets.only(bottom: 7.h),
+              child: Image.asset(
+                'assets/images/${icons[index]}.png',
+                height: 21.h,
+                width: 21.w,
+                color: index == currentIndex ? Colors.white :AppColors.greyLite,
+              ),
             ),
             label: labels[index],
           ))

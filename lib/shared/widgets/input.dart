@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import '../style.dart';
+import '../styles.dart';
 
 class Input extends StatelessWidget {
-  final String hint, imageName;
+  final String? hint, imageName;
   final bool isPhone;
   final String? labelText;
   final TextEditingController? controller;
 
   const Input(
       {Key? key,
-      required this.hint,
-      required this.imageName,
+       this.hint,
+       this.imageName,
       this.controller,
       this.isPhone = false,this.labelText})
       : super(key: key);
@@ -57,14 +57,19 @@ class Input extends StatelessWidget {
             ),
           Expanded(
             child: TextFormField(
+              cursorColor: Colors.black,
+              autofocus: true,
               decoration: InputDecoration(
                 labelText: labelText,
                 hintText: hint,
                 border: myInputBorderStyle,
                 enabledBorder: myInputBorderStyle,
                 focusedBorder: myInputBorderStyle,
+
+                labelStyle:const TextStyle(color: Color(0xffAFAFAF), fontSize: 15),
                 hintStyle:
                     const TextStyle(color: Color(0xffAFAFAF), fontSize: 15),
+                fillColor: Colors.black,
                 prefixIcon: Container(
                   padding: const EdgeInsetsDirectional.only(
                       start: 18, end: 11, top: 10, bottom: 10),

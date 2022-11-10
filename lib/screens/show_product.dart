@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
-import 'package:thimar_client/screens/nav_bar/pages/home/Pages/basket_screen.dart';
+import 'package:thimar_client/screens/basket_screen.dart';
 import 'package:thimar_client/screens/nav_bar/pages/home/components/item_increase_decrease.dart';
 import 'package:thimar_client/screens/nav_bar/pages/home/components/slider.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 
-import '../components/item_related_product.dart';
+import 'nav_bar/pages/home/components/item_related_product.dart';
+
 
 class ShowProductScreen extends StatelessWidget {
   const ShowProductScreen({Key? key}) : super(key: key);

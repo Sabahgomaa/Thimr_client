@@ -71,20 +71,20 @@ class PersonalScreen extends StatelessWidget {
           Column(
             children: [
               Input(
-                hint: 'اسم المستخدم',
+                labelText: 'اسم المستخدم',
                 imageName: 'user.png',
               ),
               Input(
                 isPhone: true,
-                hint: 'رقم الجوال',
+                labelText: 'رقم الجوال',
                 imageName: 'phone.png',
               ),
               Input(
-                hint: 'المدينة',
+                labelText: 'المدينة',
                 imageName: 'location.png',
               ),
               Input(
-                hint: 'كلمة المرور',
+                labelText: 'كلمة المرور',
                 imageName: 'location.png',
               ),
             ],

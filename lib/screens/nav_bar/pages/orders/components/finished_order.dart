@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thimar_client/screens/nav_bar/pages/orders/components/details_order.dart';
-import 'package:thimar_client/screens/nav_bar/pages/orders/components/order_item.dart';
+import 'package:thimar_client/screens/nav_bar/pages/orders/components/item_order.dart';
 import 'package:thimar_client/shared/router.dart';
 
 class EndedOrderScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class EndedOrderScreen extends StatelessWidget {
             onTap: () {
           MagicRouter.navigateTo(DetailsOrder(isCurrent: false,));
         },
-        child: OrderItem());
+        child: ItemOrder());
       },
     );
   }

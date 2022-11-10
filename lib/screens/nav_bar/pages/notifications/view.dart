@@ -10,25 +10,13 @@ class NotificationsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: Text(
           'الإشعارات',
-          style: TextStyle(
-              color: AppColors.green,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
         ),
       ),
-      backgroundColor: Colors.white,
       body: ListView.builder(
         itemCount: 15,
-        itemBuilder: (context, index) {
-          return NotificationItem();
-        },
-        // physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) => NotificationItem(),
       ),
     );
   }

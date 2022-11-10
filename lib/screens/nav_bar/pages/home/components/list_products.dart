@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/screens/nav_bar/pages/home/Pages/show_product.dart';
-import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 
+import '../../../../show_product.dart';
 import 'item_product.dart';
 
 class ListProducts extends StatelessWidget {
@@ -27,7 +25,7 @@ class ListProducts extends StatelessWidget {
             onTap: () {
               MagicRouter.navigateTo(ShowProductScreen());
             },
-            child: ProductItem(),
+            child: ItemProduct(),
           );
         },
       ),

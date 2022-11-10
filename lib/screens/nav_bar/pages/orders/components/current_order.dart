@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thimar_client/shared/router.dart';
-import 'order_item.dart';
+import 'item_order.dart';
 import 'details_order.dart';
 
 class CurrentOrderScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class CurrentOrderScreen extends StatelessWidget {
             onTap: () {
           MagicRouter.navigateTo(DetailsOrder(isCurrent: true,));
         },
-        child: OrderItem());
+        child: ItemOrder());
       },
     );
   }

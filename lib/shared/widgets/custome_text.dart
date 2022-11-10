@@ -32,13 +32,11 @@ class CustomText extends StatelessWidget {
       alignment: alignment,
       child: Text(
         text.toUpperCase(),
-        textDirection:textDirection?? TextDirection.rtl,
         style: TextStyle(
           decoration: decoration,
           fontSize: fontSize,
           color: color,
           fontWeight: fontWeight,
-          fontFamily: "Tajawal",
         ),
         textAlign: textAlign,
       ),

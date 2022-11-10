@@ -5,7 +5,7 @@ import 'package:thimar_client/screens/nav_bar/pages/home/components/item_basket.
 import 'package:thimar_client/screens/nav_bar/pages/orders/components/completed_order.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
-import 'package:thimar_client/shared/style.dart';
+import 'package:thimar_client/shared/styles.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 
 class BasketScreen extends StatelessWidget {

@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/screens/nav_bar/view.dart';
+import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 import 'gen/fonts.gen.dart';
 import 'generated/codegen_loader.g.dart';
+import 'shared/const/kiwi.dart';
+import 'shared/core/cach_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await CacheHelper.init();
+  initKiwi();
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/translations',
@@ -35,12 +40,18 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-            systemOverlayStyle: SystemUiOverlayStyle(
+          systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.white,
-            ),
-            backgroundColor: Colors.white,
-            elevation: 0),
-        backgroundColor: Colors.white,
+              statusBarIconBrightness: Brightness.light),
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+            color: AppColors.green,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.bold,
+          ),
+          centerTitle: true,
+          elevation: 0,
+        ),
         primarySwatch: Colors.blue,
         fontFamily: FontFamily.regular,
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thimar_client/screens/nav_bar/pages/orders/components/order_item.dart';
+import 'package:thimar_client/screens/nav_bar/pages/orders/components/item_order.dart';
 
 class ListOfMyOrder extends StatelessWidget {
   const ListOfMyOrder({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class ListOfMyOrder extends StatelessWidget {
       //scrollDirection: Axis.horizontal,
       itemCount: 15,
       itemBuilder: (context, index) {
-        return OrderItem();
+        return ItemOrder();
       },
       // physics: NeverScrollableScrollPhysics(),
     );

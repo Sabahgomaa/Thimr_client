@@ -2,6 +2,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/screens/my_account_pages/pocket_money/Components/recharge_now.dart';
+import 'package:thimar_client/screens/my_account_pages/pocket_money/Components/transaction_history.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
@@ -80,7 +82,9 @@ class PocketMoney extends StatelessWidget {
               color: AppColors.green,
               radius: Radius.circular(10),
               child: CustomeButton(
-                pressed: () {},
+                pressed: () {
+                  MagicRouter.navigateTo(RechargeNow());
+                },
                 width: 355.w,
                 height: 54.h,
                 fontSize: 15.sp,
@@ -98,14 +102,19 @@ class PocketMoney extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'سجل المعاملات',
-                  style: TextStyle(
-                    color: AppColors.green,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
+                GestureDetector(
+                  child: Text(
+                    'سجل المعاملات',
+                    style: TextStyle(
+                      color: AppColors.green,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
+                  onTap: (){
+                    MagicRouter.navigateTo(TransactionHistory());
+                  },
                 ),
                 Text(
                   'عرض الكل',

@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/shared/const/colors.dart';
+import '../home/bloc/bloc.dart';
 import 'components/current_order.dart';
 import 'components/finished_order.dart';
 
 class OrderScreen extends StatelessWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  OrderScreen({Key? key}) : super(key: key);
+  final bloc = KiwiContainer().resolve<HomeBloc>()..add(GetCategoriesEvent());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: Text(
           'طلباتي',
-          style: TextStyle(
-              color: AppColors.green,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
         ),
       ),
-      backgroundColor: Colors.white,
       body: DefaultTabController(
         length: 2,
         child: Padding(
@@ -34,9 +28,8 @@ class OrderScreen extends StatelessWidget {
               height: 54.08.h,
               width: 342.w,
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.greyLite),
-                borderRadius: BorderRadius.circular(12)
-              ),
+                  border: Border.all(color: AppColors.greyLite),
+                  borderRadius: BorderRadius.circular(12)),
               child: TabBar(
                 // give the indicator a decoration (color and border radius)
                 indicator: BoxDecoration(
@@ -67,10 +60,7 @@ class OrderScreen extends StatelessWidget {
             // tab bar view here
             Expanded(
               child: TabBarView(
-                children: [
-                  CurrentOrderScreen(),
-                  EndedOrderScreen()
-                ],
+                children: [CurrentOrderScreen(), EndedOrderScreen()],
               ),
             ),
           ]),
