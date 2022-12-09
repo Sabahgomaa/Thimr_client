@@ -1,44 +1,43 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import 'package:thimar_client/shared/router.dart';
+import '../../../generated/locale_keys.g.dart';
+import 'bloc/bloc.dart';
 
 class PrivacyPolicy extends StatelessWidget {
-  const PrivacyPolicy({Key? key}) : super(key: key);
+  PrivacyPolicy({Key? key}) : super(key: key);
+  final bloc = KiwiContainer().resolve<PrivacyPolicyBloc>()
+    ..add(GetPolicyEvent());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              MagicRouter.pop();
-            },
-            child: Image.asset(Assets.images.back.path),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            'سياسة الخصوصية',
-            style: TextStyle(
-              color: AppColors.green,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Text(
-            "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.",
-            style: TextStyle(
-              color: AppColors.greyLite,
-              fontSize: 15.sp,
-            ),
-          ),
-        ));
+    return BlocBuilder(
+        bloc: bloc,
+        builder: (context, state) {
+          if (bloc.policyData == null) {
+            return CircularProgressIndicator();
+          } else {
+            return Scaffold(
+              appBar: AppBarComponent(
+                title: LocaleKeys.privacyPolicy.tr(),
+              ),
+              backgroundColor: Colors.white,
+              body: Padding(
+                padding: EdgeInsets.all(8.r),
+                child: Html(data: '${bloc.policyData!.data.policy}', style: {
+                  "p": Style(
+                    color: AppColors.greyLite,
+                    fontSize: FontSize(15.sp),
+                  ),
+                }),
+              ),
+            );
+          }
+        });
   }
 }

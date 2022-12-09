@@ -1,12 +1,37 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
-import 'package:thimar_client/screens/nav_bar/pages/home/components/search_bar.dart';
-import 'item_product.dart';
+// ignore_for_file: must_be_immutable
 
-class CategoryDetails extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/screens/nav_bar/pages/home/bloc/bloc.dart';
+import 'package:thimar_client/screens/nav_bar/pages/home/widgets/search_bar.dart';
+import '../bloc/models/categories_details_model.dart';
+import '../widgets/item_product.dart';
+
+class CategoriesDetailsScreen extends StatefulWidget {
   int? categoryId;
-   CategoryDetails({Key? key,this.categoryId}) : super(key: key);
+  String? name;
+
+  CategoriesDetailsScreen({Key? key, this.categoryId, this.name})
+      : super(key: key);
+
+  @override
+  State<CategoriesDetailsScreen> createState() =>
+      _CategoriesDetailsScreenState();
+}
+
+class _CategoriesDetailsScreenState extends State<CategoriesDetailsScreen> {
+  CategoryDetails? categoryDetails;
+
+  final bloc = KiwiContainer().resolve<HomeBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.add(GetCategoriesDetailsEvent(id: widget.categoryId));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +43,7 @@ class CategoryDetails extends StatelessWidget {
               onTap: () {}, child: Image.asset(Assets.images.back.path)),
         ),
         title: Text(
-          'خضروات',
+          widget.name!,
         ),
       ),
       backgroundColor: Colors.white,
@@ -29,18 +54,39 @@ class CategoryDetails extends StatelessWidget {
               padding: EdgeInsets.all(16.r),
               child: SearchBar(),
             ),
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 12,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 163 / 230,
-                crossAxisCount: 2,
-                crossAxisSpacing: 1.0,
-                mainAxisSpacing: 1.0,
-              ),
-              itemBuilder: (context, index) => ItemProduct(),
-            ),
+            BlocBuilder(
+                bloc: bloc,
+                builder: (context, state) {
+                  if (bloc.categoriesDetailsData == null) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: bloc.categoriesDetailsData!.data.length,
+                      gridDelegate:
+                           SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 163.w / 215.h,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 1.0,
+                        mainAxisSpacing: 1.0,
+                      ),
+                      itemBuilder: (context, index) => ItemProduct(
+                        title: bloc.categoriesDetailsData!.data[index].title,
+                        priceBeforeDiscount: bloc.categoriesDetailsData!
+                            .data[index].priceBeforeDiscount
+                            .toString(),
+                        price: bloc.categoriesDetailsData!.data[index].price
+                            .toString(),
+                        image:
+                            bloc.categoriesDetailsData!.data[index].mainImage,
+                        discount: bloc.categoriesDetailsData!.data[index].discount.toString(),
+                        id: bloc.categoriesDetailsData!.data[index].id,
+
+                      ),
+                    );
+                  }
+                })
           ],
         ),
       ),

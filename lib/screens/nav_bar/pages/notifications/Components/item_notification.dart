@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
 import '../../../../../../shared/const/colors.dart';
+import '../model.dart';
 
 class NotificationItem extends StatelessWidget {
-  const NotificationItem({Key? key}) : super(key: key);
+  final Notifications model;
+
+  NotificationItem({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,29 +17,29 @@ class NotificationItem extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.r),
               child: Align(
                 alignment: Alignment.topRight,
                 child: Container(
                   width: 35.w,
                   height: 35.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(15.r),
                     color: AppColors.grey.withOpacity(.2),
                   ),
-                  child: Image.asset(Assets.images.sala.path),
+                  child: Center(child: Image.network(model.image,width: 33.w,height: 33.h,)),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.r),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
                     child: Text(
-                      'تم قبول طلبك وجاري تحضيره الأن',
+                      model.title,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
@@ -46,7 +48,7 @@ class NotificationItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم\n توليد هذا النص من مولد النص العربى',
+                    model.body,
                     style: TextStyle(
                       color: AppColors.grey,
                       fontSize: 10.sp,

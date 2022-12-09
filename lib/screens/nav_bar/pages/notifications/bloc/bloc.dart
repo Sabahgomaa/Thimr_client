@@ -1,29 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thimar_client/shared/core/dio_helper.dart';
 
+import '../model.dart';
+
 part 'events.dart';
 
 part 'states.dart';
 
-class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsStates> {
-
+class NotificationBloc extends Bloc<NotificationEvent, NotificationStates> {
   final serverGate = ServerGate();
+  NotificationsData? notificationsData;
 
-  NotificationsBloc() : super(NotificationsStates()) {
-    on<GetNotificationsEvent>(_getData);
+  NotificationBloc() : super(NotificationStates()) {
+    on<GetNotificationEvent>(_getNotification);
   }
 
-  Future<void> _getData(GetNotificationsEvent event,
-      Emitter<NotificationsStates> emit) async {
-    emit(GetNotificationsLoadingState());
-    final res = await serverGate.getFromServer(url: "end_point");
-        if(res.success)
-    {
-      //categoriesModel = CategoriesData.fromJson(res.response!.data);
-      emit(GetNotificationsSuccessState());
-    }else{
-    emit(GetNotificationsFailedState(res.msg));
+  Future<void> _getNotification(
+      GetNotificationEvent event, Emitter<NotificationStates> emit) async {
+    emit(GetNotificationLoadingState());
+    final res = await serverGate.getFromServer(url: "notifications");
+    if (res.success) {
+      notificationsData = NotificationsData.fromJson(res.response!.data);
+      emit(GetNotificationSuccessState());
+    } else {
+      emit(GetNotificationFailedState(res.msg));
     }
-
   }
 }

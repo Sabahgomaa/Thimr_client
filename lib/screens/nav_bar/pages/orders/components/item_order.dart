@@ -1,19 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/screens/nav_bar/pages/orders/model.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 
+import '../../../../../generated/locale_keys.g.dart';
+
 class ItemOrder extends StatelessWidget {
-  const ItemOrder({Key? key}) : super(key: key);
+  final Orders currentOrders;
+
+  ItemOrder({Key? key, required this.currentOrders}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ;
     return Container(
       width: 342.w,
       height: 110.h,
       child: Padding(
-        padding:EdgeInsets.all(8.r),
+        padding: EdgeInsets.all(8.r),
         child: Column(
           children: [
             Row(
@@ -23,7 +29,7 @@ class ItemOrder extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      'طلب #4587',
+                      'طلب# ${currentOrders.id}',
                       style: TextStyle(
                         color: AppColors.green,
                         fontSize: 17.sp,
@@ -31,7 +37,7 @@ class ItemOrder extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '27,يونيو,2021',
+                      currentOrders.date,
                       style: TextStyle(
                         color: AppColors.grey,
                         fontSize: 14.sp,
@@ -40,12 +46,12 @@ class ItemOrder extends StatelessWidget {
                   ],
                 ),
                 Align(
-                  alignment:AlignmentDirectional.topEnd,
+                  alignment: AlignmentDirectional.topEnd,
                   child: CustomeButton(
                     pressed: () {},
                     width: 100.w,
                     height: 28.h,
-                    radius: 5,
+                    radius: 5.r,
                     text: 'بإنتظار الموافقة',
                     fontSize: 10.sp,
                     buttonColor: AppColors.greyLite.withOpacity(.2),
@@ -54,10 +60,12 @@ class ItemOrder extends StatelessWidget {
                 )
               ],
             ),
-             Padding(
-               padding: EdgeInsets.only(bottom:5.r,top: 5.r),
-               child: Divider(height: 0.h,),
-             ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 5.r, top: 5.r),
+              child: Divider(
+                height: 0.h,
+              ),
+            ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,20 +73,40 @@ class ItemOrder extends StatelessWidget {
                   Row(
                     children: List.generate(
                         3,
-                        (index) => index == 3
-                            ? SizedBox.shrink()
-                            : Container(
-                                width: 25.w,
-                                height: 25.h,
-                                child: Image.asset(
-                                    Assets.images.department.path))),
+                        (index) => currentOrders.products[index] == 3
+                            ? Padding(
+                                padding: EdgeInsets.all(2.r),
+                                child: Container(
+                                  width: 25.w,
+                                  height: 25.h,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.whiteApp,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Center(
+                                      child: Text(
+                                    '+${currentOrders.products.length - 3}',
+                                    style: TextStyle(
+                                      color: AppColors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                                ),
+                              )
+                            : Padding(
+                                padding: EdgeInsets.all(2.r),
+                                child: Container(
+                                    width: 25.w,
+                                    height: 25.h,
+                                    child: Image.network(
+                                        currentOrders.products[index].url)),
+                              )),
                   ),
                   Text(
-                    '180ر.س',
+                    currentOrders.orderPrice.toString() + LocaleKeys.rial.tr(),
                     style: TextStyle(
-                      color: AppColors.green,
-                      fontSize: 15.sp,
-                    ),
+                        color: AppColors.green,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

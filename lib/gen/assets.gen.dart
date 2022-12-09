@@ -12,8 +12,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/Boket.png
-  AssetGenImage get boket => const AssetGenImage('assets/images/Boket.png');
+  /// File path: assets/images/boket.png
+  AssetGenImage get boket => const AssetGenImage('assets/images/boket.png');
 
   /// File path: assets/images/about us.png
   AssetGenImage get aboutUs =>
@@ -86,29 +86,29 @@ class $AssetsImagesGen {
   /// File path: assets/images/home.png
   AssetGenImage get home => const AssetGenImage('assets/images/home.png');
 
-  /// File path: assets/images/icon_Unlock.png
+  /// File path: assets/images/ic_password.png
   AssetGenImage get iconUnlock =>
-      const AssetGenImage('assets/images/icon_Unlock.png');
+      const AssetGenImage('assets/images/ic_password.png');
 
-  /// File path: assets/images/icon_User.png
+  /// File path: assets/images/ic_user.png
   AssetGenImage get iconUser =>
-      const AssetGenImage('assets/images/icon_User.png');
+      const AssetGenImage('assets/images/ic_user.png');
 
-  /// File path: assets/images/icon_add.png
+  /// File path: assets/images/ic_add.png
   AssetGenImage get iconAdd =>
-      const AssetGenImage('assets/images/icon_add.png');
+      const AssetGenImage('assets/images/ic_add.png');
 
-  /// File path: assets/images/icon_minus.png
+  /// File path: assets/images/ic_minus.png
   AssetGenImage get iconMinus =>
-      const AssetGenImage('assets/images/icon_minus.png');
+      const AssetGenImage('assets/images/ic_minus.png');
 
-  /// File path: assets/images/icon_phone.png
+  /// File path: assets/images/ic_phone.png
   AssetGenImage get iconPhone =>
-      const AssetGenImage('assets/images/icon_phone.png');
+      const AssetGenImage('assets/images/ic_phone.png');
 
-  /// File path: assets/images/icon_report.png
+  /// File path: assets/images/ic_report.png
   AssetGenImage get iconReport =>
-      const AssetGenImage('assets/images/icon_report.png');
+      const AssetGenImage('assets/images/ic_report.png');
 
   /// File path: assets/images/location.png
   AssetGenImage get location =>

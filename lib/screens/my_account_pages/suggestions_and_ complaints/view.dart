@@ -1,73 +1,91 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input_without_image.dart';
+import '../../../generated/locale_keys.g.dart';
+import 'bloc/bloc.dart';
 
 class SuggestionsAndComplaints extends StatelessWidget {
-  const SuggestionsAndComplaints({Key? key}) : super(key: key);
+  SuggestionsAndComplaints({Key? key}) : super(key: key);
+  final bloc = KiwiContainer().resolve<SuggestionsAndComplaintsBloc>()
+    ..add(SuggestionsAndComplaintsEvent());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              MagicRouter.pop();
-            },
-            child: Image.asset(Assets.images.back.path),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            'الأقتراحات والشكاوي',
-            style: TextStyle(
-              color: AppColors.green,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding:  EdgeInsets.all(8.r),
+      appBar: AppBarComponent(
+        title: LocaleKeys.suggestions.tr(),
+      ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: EdgeInsets.all(8.r),
+        child: Form(
+          key: bloc.formKey,
           child: Container(
             height: 400.h,
             child: Column(
               children: [
                 InputWithoutImage(
-                  hint: 'الإسم',
+                  label: LocaleKeys.name.tr(),
+                  controller: bloc.fullNameController,
+                  type: TextInputType.name,
                 ),
-                SizedBox(height: 5.h,),
+                SizedBox(
+                  height: 5.h,
+                ),
                 InputWithoutImage(
-                  hint: 'رقم الموبايل',
+                  label: LocaleKeys.phoneNumber2.tr(),
+                  controller: bloc.phoneController,
+                  type: TextInputType.phone,
                 ),
-                SizedBox(height: 5.h,),
-                Padding(
-                  padding: EdgeInsets.only(top: 5.r,bottom: 5.r),
-                  child: InputWithoutImage(
-                    hint: 'الموضوع',
+                SizedBox(
+                  height: 5.h,
+                ),
+                InputWithoutImage(
+                  label: LocaleKeys.subject.tr(),
+                  controller: bloc.contentController,
+                  type: TextInputType.text,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                BlocConsumer(
+                  bloc: bloc,
+                  listener: ( context, state) {
+                    if (state is SuggestionsAndComplaintsFailedState) {
+                      Fluttertoast.showToast(msg: state.error);
+                    }
+                    if (state is SuggestionsAndComplaintsSuccessState) {
+                      bloc.formKey.currentState!.reset();
+                      Fluttertoast.showToast(msg: state.msg);
+                    }
+                  },
+                  builder: (context, state) => Padding(
+                    padding: EdgeInsets.all(8.r),
+                    child: CustomeButton(
+                        text: LocaleKeys.send.tr(),
+                        fontSize: 15.sp,
+                        textColor: AppColors.whiteApp,
+                        pressed: () {
+                          if (bloc.formKey.currentState!.validate()) {
+                            bloc.add(SuggestionsAndComplaintsEvent());
+                          }
+                        },
+                        width: 312.w,
+                        height: 54.h),
                   ),
-                ),
-                SizedBox(height: 5.h,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomeButton(
-                      text: 'إرسال',
-                      fontSize: 15.sp,
-                      textColor: AppColors.whiteApp,
-                      pressed: () {},
-                      width: 312.w,
-                      height: 54.h),
                 )
               ],
             ),
           ),
         ),
+      ),
     );
   }
 }

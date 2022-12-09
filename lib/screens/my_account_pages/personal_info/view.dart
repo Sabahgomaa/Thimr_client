@@ -1,104 +1,121 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import 'package:thimar_client/shared/router.dart';
+
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input.dart';
 
+import '../../../generated/locale_keys.g.dart';
+import 'bloc/bloc.dart';
+
 class PersonalScreen extends StatelessWidget {
-  const PersonalScreen({Key? key}) : super(key: key);
+  PersonalScreen({Key? key}) : super(key: key);
+  final bloc = KiwiContainer().resolve<ProfileBloc>()..add(GetProfileEvent());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            MagicRouter.pop();
-          },
-          child: Image.asset(Assets.images.back.path),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'البيانات الشخصية',
-          style: TextStyle(
-              color: AppColors.green,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
+      appBar: AppBarComponent(
+        title: LocaleKeys.personalInfo.tr(),
       ),
       backgroundColor: Colors.white,
-      body: ListView(
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Image.asset(
-                    Assets.images.photoProfile.path,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      'محمد علي',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
+      body: BlocBuilder(
+        bloc: bloc,
+        builder: (context, state) {
+          if (bloc.profileData == null) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return ListView(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.r),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 83.h,
+                          width: 88.w,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.r),
+                            child: Image.network(
+                              bloc.profileData!.data.image,
+                              // Assets.images.photoProfile.path,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5.r),
+                          child: Text(
+                            bloc.profileData!.data.fullname,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5.r),
+                          child: Text(
+                            bloc.profileData!.data.phone,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.greyLite,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      '96654787856+',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.greyLite,
-                      ),
+                ),
+                Column(
+                  children: [
+                    Input(
+                      autofocus: false,
+                      labelText: LocaleKeys.userName.tr(),
+                      imageName: 'user.png',
+                      controller: bloc.fullNameController,
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Input(
-                labelText: 'اسم المستخدم',
-                imageName: 'user.png',
-              ),
-              Input(
-                isPhone: true,
-                labelText: 'رقم الجوال',
-                imageName: 'phone.png',
-              ),
-              Input(
-                labelText: 'المدينة',
-                imageName: 'location.png',
-              ),
-              Input(
-                labelText: 'كلمة المرور',
-                imageName: 'location.png',
-              ),
-            ],
-          ),
-          Center(
-            child: CustomeButton(
-              pressed: () {},
-              width: 343.w,
-              height: 60.h,
-              fontSize: 20.sp,
-              text: 'تعديل البيانات',
-            ),
-          ),
-        ],
+                    Input(
+                      autofocus: false,
+                      isPhone: true,
+                      labelText: LocaleKeys.phoneNumber.tr(),
+                      imageName: 'phone.png',
+                      controller: bloc.phoneController,
+                    ),
+                    Input(
+                      autofocus: false,
+                      labelText: LocaleKeys.city.tr(),
+                      imageName: 'location.png',
+                      // controller: bloc.profileData!.data.city,
+                    ),
+                    Input(
+                      autofocus: false,
+                      labelText: LocaleKeys.password.tr(),
+                      imageName: 'location.png',
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+        },
+      ),
+      bottomNavigationBar: Padding(
+        padding:EdgeInsets.only(left: 8.r,right:16.r,top: 8.r,bottom: 15.r ),
+        child: CustomeButton(
+          pressed: () {},
+          width: 345.w,
+          height: 60.h,
+          fontSize: 20.sp,
+
+          text: LocaleKeys.editDetails.tr(),
+        ),
       ),
     );
   }

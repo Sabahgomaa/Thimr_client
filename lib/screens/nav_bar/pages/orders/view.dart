@@ -1,27 +1,27 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import '../home/bloc/bloc.dart';
-import 'components/current_order.dart';
-import 'components/finished_order.dart';
+import '../../../../generated/locale_keys.g.dart';
+import 'components/list_current_order.dart';
+import 'components/list_finished_order.dart';
 
 class OrderScreen extends StatelessWidget {
   OrderScreen({Key? key}) : super(key: key);
-  final bloc = KiwiContainer().resolve<HomeBloc>()..add(GetCategoriesEvent());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'طلباتي',
+          LocaleKeys.my_orders.tr(),
         ),
       ),
+      backgroundColor: Colors.white,
       body: DefaultTabController(
         length: 2,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.r),
           child: Column(children: [
             // give the tab bar a height [can change hheight to preferred height]
             Container(
@@ -29,12 +29,12 @@ class OrderScreen extends StatelessWidget {
               width: 342.w,
               decoration: BoxDecoration(
                   border: Border.all(color: AppColors.greyLite),
-                  borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(10.r)),
               child: TabBar(
                 // give the indicator a decoration (color and border radius)
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(
-                    12.0,
+                    10.r,
                   ),
                   color: AppColors.green,
                 ),
@@ -47,12 +47,12 @@ class OrderScreen extends StatelessWidget {
                 tabs: [
                   // first tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'الحاليه',
+                    text: LocaleKeys.active.tr(),
                   ),
 
                   // second tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'المنتهية',
+                    text: LocaleKeys.expired.tr(),
                   ),
                 ],
               ),
@@ -60,7 +60,7 @@ class OrderScreen extends StatelessWidget {
             // tab bar view here
             Expanded(
               child: TabBarView(
-                children: [CurrentOrderScreen(), EndedOrderScreen()],
+                children: [CurrentOrderScreen(), FinishedOrderScreen()],
               ),
             ),
           ]),

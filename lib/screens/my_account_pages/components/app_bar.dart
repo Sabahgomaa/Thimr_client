@@ -4,7 +4,7 @@ import 'package:thimar_client/gen/assets.gen.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 
-class AppBarComponent extends StatelessWidget  {
+class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const AppBarComponent({Key? key, required this.title}) : super(key: key);
 
@@ -21,7 +21,7 @@ class AppBarComponent extends StatelessWidget  {
       elevation: 0,
       centerTitle: true,
       title: Text(
-        'سياسة الخصوصية',
+       title,
         style: TextStyle(
           color: AppColors.green,
           fontSize: 20.sp,
@@ -31,4 +31,8 @@ class AppBarComponent extends StatelessWidget  {
       ),
     );
   }
+
+  @override
+  // TODO: implement preferredSize
+    Size get preferredSize => Size.fromHeight(50.h);
 }

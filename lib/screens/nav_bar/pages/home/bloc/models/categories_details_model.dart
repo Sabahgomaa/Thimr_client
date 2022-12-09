@@ -1,39 +1,17 @@
 class CategoriesDetailsData {
-  CategoriesDetailsData({
-    required this.data,
-    required this.status,
-    required this.message,
-  });
 
-  late final List<Data> data;
+  late final List<CategoryDetails> data;
   late final String status;
   late final String message;
 
   CategoriesDetailsData.fromJson(Map<String, dynamic> json) {
-    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
+    data = List.from(json['data']).map((e) => CategoryDetails.fromJson(e)).toList();
     status = json['status'];
     message = json['message'];
   }
 }
 
-class Data {
-  Data({
-    required this.categoryId,
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.code,
-    required this.priceBeforeDiscount,
-    required this.price,
-    required this.discount,
-    required this.amount,
-    required this.isActive,
-    required this.isFavorite,
-    required this.unit,
-    required this.images,
-    required this.mainImage,
-    required this.createdAt,
-  });
+class CategoryDetails {
 
   late final int categoryId;
   late final int id;
@@ -41,8 +19,8 @@ class Data {
   late final String description;
   late final String code;
   late final int priceBeforeDiscount;
-  late final int price;
-  late final double discount;
+  late final num price;
+  late final num discount;
   late final int amount;
   late final int isActive;
   late final bool isFavorite;
@@ -51,7 +29,7 @@ class Data {
   late final String mainImage;
   late final String createdAt;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  CategoryDetails.fromJson(Map<String, dynamic> json) {
     categoryId = json['category_id'];
     id = json['id'];
     title = json['title'];
@@ -71,13 +49,6 @@ class Data {
 }
 
 class Unit {
-  Unit({
-    required this.id,
-    required this.name,
-    required this.type,
-    required this.createdAt,
-    required this.updatedAt,
-  });
 
   late final int id;
   late final String name;
@@ -95,11 +66,6 @@ class Unit {
 }
 
 class Images {
-  Images({
-    required this.name,
-    required this.url,
-  });
-
   late final String name;
   late final String url;
 

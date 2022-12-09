@@ -1,5 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
 import 'package:thimar_client/screens/my_account_pages/about_app/view.dart';
@@ -9,15 +14,24 @@ import 'package:thimar_client/screens/my_account_pages/payments/view.dart';
 import 'package:thimar_client/screens/my_account_pages/personal_info/view.dart';
 import 'package:thimar_client/screens/my_account_pages/pocket_money/view.dart';
 import 'package:thimar_client/screens/my_account_pages/privacy_policy/view.dart';
-import 'package:thimar_client/screens/my_account_pages/repeated_questions/view.dart';
 import 'package:thimar_client/screens/my_account_pages/suggestions_and_%20complaints/view.dart';
+import 'package:thimar_client/shared/core/cach_helper.dart';
+import 'package:thimar_client/shared/router.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../../../shared/const/colors.dart';
+import '../../../../generated/locale_keys.g.dart';
+import '../../../auth_cycle/log_in/view.dart';
+import '../../../my_account_pages/faqs/view.dart';
+import '../../../my_account_pages/personal_info/bloc/bloc.dart';
+import 'bloc/bloc.dart';
 import 'components/item_my_account.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
+  final blocLogout = KiwiContainer().resolve<LogoutBloc>();
+  final blocProfile = KiwiContainer().resolve<ProfileBloc>()
+    ..add(GetProfileEvent());
+  final deviceToken = FirebaseMessaging.instance.getToken();
 
   @override
   Widget build(BuildContext context) {
@@ -25,75 +39,97 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         body: ListView(
           children: [
-            Container(
-              height: 217.h,
-              decoration: BoxDecoration(
-                color: AppColors.green,
-                // border: Border.all(color: AppColors.greyLite),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.r),
-                  bottomRight: Radius.circular(20.r),
-                ),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(8.r),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'حسابي',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Image.asset(
-                        Assets.images.photoProfile.path,
-                      ),
-                      Text(
-                        'محمد علي',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '96654787856+',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.greenLite,
-                        ),
-                      ),
-                    ],
+            BlocBuilder(
+              bloc: blocProfile,
+              builder: (BuildContext context, state) {
+                return Container(
+                  height: 217.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.green,
+                    // border: Border.all(color: AppColors.greyLite),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20.r),
+                      bottomRight: Radius.circular(20.r),
+                    ),
                   ),
-                ),
-              ),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.r),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 15.r, top: 15.r),
+                            child: Text(
+                              LocaleKeys.my_account.tr(),
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.r),
+                            child: Container(
+                              height: 71.h,
+                              width: 76.w,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.r),
+                                child: Image.network(
+                                  blocProfile.profileData!.data.image,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.r),
+                            child: Text(
+                              blocProfile.profileData!.data.fullname,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.r),
+                            child: Text(
+                              blocProfile.profileData!.data.phone,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.greenLite,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
             Container(
               child: Column(
                 children: [
                   ItemMyAccount(
-                    title: "البيانات الشخصية",
+                    title: LocaleKeys.personalInfo.tr(),
                     image: Assets.images.profileInfo.path,
                     page: PersonalScreen(),
                   ),
                   ItemMyAccount(
-                    title: "المحفظة",
+                    title: LocaleKeys.wallet.tr(),
                     image: Assets.images.boket.path,
                     page: PocketMoney(),
                   ),
                   ItemMyAccount(
-                    title: "العناوين",
+                    title: LocaleKeys.addresses.tr(),
                     image: Assets.images.addresses.path,
                     page: AddressesScreen(),
                   ),
                   ItemMyAccount(
-                    title: "الدفع",
+                    title: LocaleKeys.payment.tr(),
                     image: Assets.images.pay.path,
                     page: PaymentsScreen(),
                   ),
@@ -104,35 +140,37 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ItemMyAccount(
-                    title: "أسئلة متكررة",
+                    title: LocaleKeys.knownQuestions.tr(),
                     image: Assets.images.rebeatQuestion.path,
-                    page: RepeatedQuestions(),
+                    page: FAQsScreen(),
                   ),
                   ItemMyAccount(
-                    title: "سياسة الخصوصية",
+                    title: LocaleKeys.privacyPolicy.tr(),
                     image: Assets.images.privacy.path,
                     page: PrivacyPolicy(),
                   ),
                   ItemMyAccount(
-                    title: "تواصل معنا",
+                    title: LocaleKeys.contactWithUs.tr(),
                     image: Assets.images.contentUs.path,
                     page: ContactUs(),
                   ),
                   ItemMyAccount(
-                    title: "الشكاوي والأقتراحات",
+                    title: LocaleKeys.suggestions.tr(),
                     image: Assets.images.sugesstion.path,
                     page: SuggestionsAndComplaints(),
                   ),
                   ListTile(
                     onTap: () {
-                      Share.share('text',
-                          subject: "any subjrct",);
+                      Share.share(
+                        'text',
+                        subject: "any subjrct",
+                      );
                     },
                     leading: Image.asset(
                       Assets.images.shareApp.path,
                     ),
                     title: Text(
-                      "مشاركة التطبيق",
+                      LocaleKeys.shareApp.tr(),
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
@@ -149,16 +187,40 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ItemMyAccount(
-                    title: "عن التطبيق",
+                    title: LocaleKeys.aboutApp.tr(),
                     image: Assets.images.aboutUs.path,
                     page: AboutApp(),
                   ),
-                  ItemMyAccount(
-                    title: "تغيير اللغة",
-                    image: Assets.images.changeLanguage.path,
+                  ListTile(
+                    onTap: () async {
+                      // if(Locale('') == Locale('ar')){
+                      //   await context.setLocale(Locale('en'));
+                      // }
+                      // if (Locale('') == Locale('en')) {
+                      //   await context.setLocale(Locale('ar'));
+                      // }
+                      await context.setLocale(Locale('ar'));
+                    },
+                    leading: Image.asset(
+                      Assets.images.changeLanguage.path,
+                    ),
+                    title: Text(
+                      LocaleKeys.changeLanguage.tr(),
+                      style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.green),
+                    ),
+                    trailing: Image.asset(
+                      Assets.images.rowBack.path,
+                    ),
                   ),
+                  // ItemMyAccount(
+                  //   title: LocaleKeys.changeLanguage.tr(),
+                  //   image: Assets.images.changeLanguage.path,
+                  // ),
                   ItemMyAccount(
-                    title: "الشروط والأحكام",
+                    title: LocaleKeys.conditions.tr(),
                     image: Assets.images.policy.path,
                   ),
                   ListTile(
@@ -172,7 +234,7 @@ class ProfileScreen extends StatelessWidget {
                       Assets.images.quality.path,
                     ),
                     title: Text(
-                      "تقييم التطبيق",
+                      LocaleKeys.rateApp.tr(),
                       style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
@@ -182,32 +244,45 @@ class ProfileScreen extends StatelessWidget {
                       Assets.images.rowBack.path,
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     final url =
-                  //         "https://pub.dev/packages/url_launcher/install";
-                  //     launch(url);
-                  //   },
-                  //   child: ItemMyAccount(
-                  //     title: "تقييم التطبيق",
-                  //     image: Assets.images.quality.path,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
-            ListTile(
-              onTap: () {},
-              title: Text(
-                "تسجيل الخروج",
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.green),
-              ),
-              trailing: Image.asset(
-                Assets.images.rowBack.path,
-              ),
+            BlocConsumer(
+              bloc: blocLogout,
+              listener: (context, state) {
+                if (state is LogoutFailedState) {
+                  Fluttertoast.showToast(msg: state.error);
+                }
+                if (state is LogoutSuccessState) {
+                  MagicRouter.navigateTo(LogInScreen());
+                }
+                ;
+              },
+              builder: (BuildContext context, Object? state) {
+                return ListTile(
+                  onTap: () {
+                    blocLogout.add(LogoutEvent());
+                  },
+                  title: CacheHelper.getDeviceToken().isEmpty
+                      ? Text(
+                          LocaleKeys.login.tr(),
+                          style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.green),
+                        )
+                      : Text(
+                          LocaleKeys.logout.tr(),
+                          style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.green),
+                        ),
+                  trailing: Image.asset(
+                    Assets.images.rowBack.path,
+                  ),
+                );
+              },
             ),
           ],
         ),

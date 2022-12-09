@@ -6,17 +6,20 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../shared/const/colors.dart';
 
 class ItemMyAccount extends StatelessWidget {
-  final String title,image;
+  final String title, image;
   final Widget? page;
-  const ItemMyAccount({Key? key, required this.title, required this.image, this.page}) : super(key: key);
+
+  const ItemMyAccount(
+      {Key? key, required this.title, required this.image, this.page})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  ListTile(
-      onTap: (){
+    return ListTile(
+      onTap: () {
         MagicRouter.navigateTo(page!);
-    },
-    leading: Image.asset(
+      },
+      leading: Image.asset(
         image,
       ),
       title: Text(

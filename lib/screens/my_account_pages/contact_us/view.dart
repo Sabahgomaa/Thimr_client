@@ -1,161 +1,214 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input_without_image.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../generated/locale_keys.g.dart';
+import '../components/app_bar.dart';
+import 'bloc/bloc.dart';
 
 class ContactUs extends StatelessWidget {
-  const ContactUs({Key? key}) : super(key: key);
+  ContactUs({Key? key}) : super(key: key);
+  final bloc = KiwiContainer().resolve<ContactUsBloc>()
+    ..add(GetContactUsEvent());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            MagicRouter.pop();
-          },
-          child: Image.asset(Assets.images.back.path),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'تواصل معنا',
-          style: TextStyle(
-            color: AppColors.green,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
+      appBar: AppBarComponent(
+        title: LocaleKeys.contactWithUs.tr(),
       ),
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          Container(
-            height: 350.h,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: AlignmentDirectional.topCenter,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Image.asset(Assets.images.mapContactUs.path),
+          BlocBuilder(
+              bloc: bloc,
+              builder: (context, state) {
+                if (bloc.contactUsData == null) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.all(20.r),
+                    child: Container(
+                      height: 250.h,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional.topCenter,
+                            child: Container(
+                              height: 198.h,
+                              width: 342.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: GoogleMap(
+                                mapType: MapType.normal,
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(
+                                    bloc.contactUsData!.contacts.lat,
+                                    bloc.contactUsData!.contacts.lng,
+                                  ),
+                                  zoom: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            child: Container(
+                              width: 312.w,
+                              height: 119.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(8.r),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(4.r),
+                                            child: Image.asset(Assets
+                                                .images.locationContactUs.path),
+                                          ),
+                                          Text(
+                                            bloc.contactUsData!.contacts
+                                                .location,
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              // color: AppColors.greenLite,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(4.r),
+                                            child: Image.asset(Assets
+                                                .images.callingContactUs.path),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              final url =
+                                                  "tel:${bloc.contactUsData!.contacts.phone}";
+
+                                              await canLaunch(url)
+                                                  ? await launch(url)
+                                                  : throw 'Could not launch $url';
+                                            },
+                                            child: Text(
+                                              '${bloc.contactUsData!.contacts.phone}',
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(4.r),
+                                            child: Image.asset(Assets
+                                                .images.messageContactUs.path),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              final url =
+                                                  "mailto:${bloc.contactUsData!.contacts.email}";
+                                              await canLaunch(url)
+                                                  ? await launch(url)
+                                                  : throw 'Could not launch $url';
+                                            },
+                                            child: Text(
+                                              '${bloc.contactUsData!.contacts.email}',
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
+                  );
+                }
+              }),
+          Expanded(
+            child: Column(
+              children: [
+                Text(
+                  LocaleKeys.orYouCanSendMessage.tr(),
+                  style: TextStyle(
+                    color: AppColors.green,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                Align(
-                  alignment: AlignmentDirectional.bottomCenter,
+                Padding(
+                  padding: EdgeInsets.all(8.r),
                   child: Container(
-                    width: 312.w,
-                    height: 122.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    height: 315.h,
+                    child: Form(
+                      key: bloc.formKey,
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                    Assets.images.locationContactUs.path),
-                              ),
-                              Text(
-                                '13 شارع الملك فهد , جدة , المملكة العربية السعودية',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  // color: AppColors.greenLite,
-                                ),
-                              )
-                            ],
+                          InputWithoutImage(
+                            label: LocaleKeys.name.tr(),
+                            type: TextInputType.name,
+                            controller: bloc.fullNameController,
                           ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                    Assets.images.callingContactUs.path),
-                              ),
-                              Text(
-                                '+966 054 87452',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                ),
-                              )
-                            ],
+                          InputWithoutImage(
+                            label: LocaleKeys.phoneNumber.tr(),
+                            type: TextInputType.phone,
+                            controller: bloc.phoneController,
                           ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                    Assets.images.messageContactUs.path),
-                              ),
-                              Text(
-                                'info@thimar.com',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  // color: AppColors.greenLite,
-                                ),
-                              )
-                            ],
+                          InputWithoutImage(
+                            label: LocaleKeys.subject.tr(),
+                            type: TextInputType.text,
+                            controller: bloc.contentController,
                           ),
+                          Padding(
+                            padding: EdgeInsets.all(8.r),
+                            child: CustomeButton(
+                                text: LocaleKeys.send.tr(),
+                                fontSize: 15.sp,
+                                textColor: AppColors.whiteApp,
+                                pressed: () {
+                                  bloc.add(ContactUsEvent());
+                                },
+                                width: 312.w,
+                                height: 54.h),
+                          )
                         ],
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-          Text(
-            'أو يمكنك إرسال رسالة ',
-            style: TextStyle(
-              color: AppColors.green,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 315.h,
-              child: Column(
-                children: [
-                  InputWithoutImage(
-                    hint: 'الإسم',
-                  ),
-                  InputWithoutImage(
-                    hint: 'رقم الموبايل',
-                  ),
-                  InputWithoutImage(
-                    hint: 'الموضوع',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomeButton(
-                        text: 'إرسال',
-                        fontSize: 15.sp,
-                        textColor: AppColors.whiteApp,
-                        pressed: () {},
-                        width: 312.w,
-                        height: 54.h),
-                  )
-                ],
-              ),
-            ),
-          ),
+          )
         ],
       ),
     );

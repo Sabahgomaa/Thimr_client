@@ -1,1 +1,0 @@
-const String categories="categories";

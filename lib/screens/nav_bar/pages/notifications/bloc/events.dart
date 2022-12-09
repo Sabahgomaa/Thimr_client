@@ -1,5 +1,5 @@
 part of 'bloc.dart';
 
-class NotificationsEvent {}
+class NotificationEvent {}
 
-class GetNotificationsEvent extends NotificationsEvent {}
+class GetNotificationEvent extends NotificationEvent {}

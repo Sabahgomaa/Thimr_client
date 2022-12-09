@@ -1,12 +1,16 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/generated/locale_keys.g.dart';
+import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
 import 'package:thimar_client/screens/my_account_pages/pocket_money/Components/recharge_now.dart';
 import 'package:thimar_client/screens/my_account_pages/pocket_money/Components/transaction_history.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
+
+import 'components/item_pocket.dart';
 
 class PocketMoney extends StatelessWidget {
   const PocketMoney({Key? key}) : super(key: key);
@@ -14,26 +18,7 @@ class PocketMoney extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            MagicRouter.pop();
-          },
-          child: Image.asset(Assets.images.back.path),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'المحفظة',
-          style: TextStyle(
-            color: AppColors.green,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      appBar: AppBarComponent(title:LocaleKeys.wallet.tr(),),
       backgroundColor: Colors.white,
       body: ListView(
         children: [
@@ -45,7 +30,7 @@ class PocketMoney extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding:EdgeInsets.all(4.r),
                     child: Text(
                       'رصيدك',
                       style: TextStyle(
@@ -57,9 +42,9 @@ class PocketMoney extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: EdgeInsets.all(4.r),
                     child: Text(
-                      '255 ر.س',
+                      '255' +LocaleKeys.rial.tr(),
                       style: TextStyle(
                         color: AppColors.green,
                         fontSize: 20.sp,
@@ -73,7 +58,7 @@ class PocketMoney extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.r),
             child: DottedBorder(
               dashPattern: [4, 5],
               strokeWidth: 1,
@@ -90,7 +75,7 @@ class PocketMoney extends StatelessWidget {
                 fontSize: 15.sp,
                 buttonColor: AppColors.greyLite.withOpacity(.2),
                 textColor: AppColors.green,
-                text: 'اشحن الآن',
+                text:LocaleKeys.chargeNow.tr(),
               ),
             ),
           ),
@@ -98,13 +83,13 @@ class PocketMoney extends StatelessWidget {
             height: 50.h,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   child: Text(
-                    'سجل المعاملات',
+                    LocaleKeys.transactionsHistory.tr(),
                     style: TextStyle(
                       color: AppColors.green,
                       fontSize: 15.sp,
@@ -117,7 +102,7 @@ class PocketMoney extends StatelessWidget {
                   },
                 ),
                 Text(
-                  'عرض الكل',
+                  LocaleKeys.seeAll.tr(),
                   style: TextStyle(
                     color: AppColors.green,
                     fontSize: 15.sp,
@@ -128,81 +113,11 @@ class PocketMoney extends StatelessWidget {
             ),
           ),
           Container(
-            height: 200.h,
+            height: 220.h,
             child: ListView.builder(
                 itemCount: 2,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 90.h,
-                    child: Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                    width: 18.w,
-                                    height: 18.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: AppColors.grey.withOpacity(.2),
-                                    ),
-                                    child:
-                                        Image.asset(Assets.images.payIcon.path),
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'شحن المحفظة',
-                                          style: TextStyle(
-                                            color: AppColors.green,
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          '255 س.ر',
-                                          style: TextStyle(
-                                            color: AppColors.green,
-                                            fontSize: 22.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              '27يونيو2021',
-                              style: TextStyle(
-                                color: AppColors.grey,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return ItemPocket();
                 }),
           )
         ],

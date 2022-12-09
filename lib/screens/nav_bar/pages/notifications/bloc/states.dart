@@ -1,14 +1,14 @@
 part of 'bloc.dart';
 
-class NotificationsStates {}
+class NotificationStates {}
 
-class GetNotificationsLoadingState extends NotificationsStates {}
+class GetNotificationLoadingState extends NotificationStates {}
 
-class GetNotificationsSuccessState extends NotificationsStates {
+class GetNotificationSuccessState extends NotificationStates {
 }
 
-class GetNotificationsFailedState extends NotificationsStates {
+class GetNotificationFailedState extends NotificationStates {
   final String error;
 
-  GetNotificationsFailedState(this.error);
+  GetNotificationFailedState(this.error);
 }

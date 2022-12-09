@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/styles.dart';
 
 class InputWithoutImage extends StatelessWidget {
-  final String hint;
+  final String label;
   final TextEditingController? controller;
+  final type;
 
-  const InputWithoutImage({Key? key, required this.hint, this.controller})
+  const InputWithoutImage(
+      {Key? key, required this.label, this.controller, this.type})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TextFormField(
+
         maxLines: 4,
+        controller: controller,
         minLines: 1,
+        cursorColor:AppColors.green,
+        keyboardType: type,
         decoration: InputDecoration(
-          hintText: hint,
+          labelText: label,
+          labelStyle: TextStyle(color: AppColors.greyLite, fontSize: 15.sp),
           border: myInputBorderStyle,
           enabledBorder: myInputBorderStyle,
           focusedBorder: myInputBorderStyle,
-          hintStyle: const TextStyle(color: Color(0xffAFAFAF), fontSize: 15),
-          // prefixIcon: Container(
-          //   padding: const EdgeInsetsDirectional.only(
-          //       start: 18, end: 11, top: 10, bottom: 10),
-          //   child: Image.asset(
-          //     "assets/images/$imageName",
-          //     height: 15,
-          //     width: 15,
-          //   ),
-          // ),
         ),
       ),
     );

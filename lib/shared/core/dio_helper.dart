@@ -71,6 +71,49 @@ class ServerGate {
       return handleServerError(err);
     }
   }
+  Future<CustomResponse> put({
+    required String url,
+    Map<String, dynamic>? body,
+  }) async {
+    if (body != null) {
+      body.removeWhere(
+            (key, value) => body[key] == null || body[key] == "",
+      );
+    }
+    if (body != null) {
+      Map<String, String> logBody = {};
+      body.forEach((key, value) {
+        logBody.addAll({key.toString(): value.toString()});
+      });
+      log.info(body);
+    }
+    try {
+      Response response = await dio.put(
+        url,
+        data: FormData.fromMap(body ?? {}),
+        onSendProgress: (received, total) {
+          onSingleReceive.add((received / total) - 0.05);
+        },
+        options: Options(
+          sendTimeout: 5000,
+          receiveTimeout: 5000,
+          contentType:
+          "multipart/form-data; boundary=<calculated when request is sent>",
+        ),
+      );
+
+      return CustomResponse(
+        success: true,
+        statusCode: 200,
+        errType: null,
+        error: null,
+        msg: response.data["message"] ?? "Your request completed successfully",
+        response: response,
+      );
+    } on DioError catch (err) {
+      return handleServerError(err);
+    }
+  }
 
   Future<CustomResponse> getFromServer({
     required String url,

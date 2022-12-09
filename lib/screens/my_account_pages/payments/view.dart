@@ -1,11 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
-import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input_without_image.dart';
+
+import '../../../generated/locale_keys.g.dart';
 
 class PaymentsScreen extends StatelessWidget {
   const PaymentsScreen({Key? key}) : super(key: key);
@@ -13,25 +16,8 @@ class PaymentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            MagicRouter.pop();
-          },
-          child: Image.asset(Assets.images.back.path),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'الدفع',
-          style: TextStyle(
-            color: AppColors.green,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
+      appBar: AppBarComponent(
+        title: LocaleKeys.payment.tr(),
       ),
       backgroundColor: Colors.white,
       body: Column(
@@ -52,7 +38,7 @@ class PaymentsScreen extends StatelessWidget {
               strokeCap: StrokeCap.round,
               borderType: BorderType.RRect,
               color: AppColors.green,
-              radius: Radius.circular(10),
+              radius: Radius.circular(10.r),
               child: CustomeButton(
                 pressed: () {
                   showModalBottomSheet<void>(
@@ -67,15 +53,15 @@ class PaymentsScreen extends StatelessWidget {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.r),
                             child: Container(
                               height: 300.h,
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(8.r),
                                     child: Text(
-                                      'إضافة بطاقة',
+                                      LocaleKeys.addingCard.tr(),
                                       style: TextStyle(
                                         color: AppColors.green,
                                         fontSize: 15.sp,
@@ -85,29 +71,34 @@ class PaymentsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   InputWithoutImage(
-                                    hint: 'اسم صاحب البطاقة',
+                                    label: LocaleKeys.nameOfCardOnwer.tr(),
+                                    type: TextInputType.name,
                                   ),
                                   InputWithoutImage(
-                                    hint: 'رقم البطاقة',
+                                    label: LocaleKeys.cardNum.tr(),
+                                    type: TextInputType.number,
                                   ),
                                   Container(
                                     height: 60,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         InputWithoutImage(
-                                          hint: 'تاريخ الإنتهاء (شهر / سنة)',
+                                          label: LocaleKeys.validDate.tr(),
+                                          type: TextInputType.datetime,
                                         ),
                                         InputWithoutImage(
-                                          hint: '(Cvv) الرقم السري ',
+                                          label: LocaleKeys.cvv.tr(),
+                                          type: TextInputType.number,
                                         ),
                                       ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(8.r),
                                     child: CustomeButton(
-                                        text: 'إضافة بطاقة',
+                                        text: LocaleKeys.addingCard.tr(),
                                         fontSize: 15.sp,
                                         textColor: AppColors.whiteApp,
                                         pressed: () {},
@@ -126,7 +117,7 @@ class PaymentsScreen extends StatelessWidget {
                 fontSize: 15.sp,
                 buttonColor: AppColors.greyLite.withOpacity(.2),
                 textColor: AppColors.green,
-                text: 'إضافة بطاقة',
+                text: LocaleKeys.addingCard.tr(),
               ),
             ),
           ),
