@@ -12,3 +12,13 @@ class SearchFailedState extends SearchStates {
 
   SearchFailedState(this.error);
 }
+
+class SearchByIdLoadingState extends SearchStates {}
+
+class SearchByIdSuccessState extends SearchStates {}
+
+class SearchByIdFailedState extends SearchStates {
+  final String error;
+
+  SearchByIdFailedState(this.error);
+}

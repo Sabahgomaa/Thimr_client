@@ -303,7 +303,7 @@ static const Map<String,dynamic> en = {
   "goToConfirmOrder": "Go to complete the order",
   "phone": "Phone",
   "description": "Description",
-  "deliveryPlace": "Select the delivery address",
+  "deliveryPlace": "Select the delivery addresses",
   "deliveryTime": "Determine delivery time",
   "chooseDayAndDate": "Select Date",
   "chooseTime": "Select Time",

@@ -14,7 +14,7 @@ class Data {
   late final List<SearchResult> searchResult;
 
   Data.fromJson(Map<String, dynamic> json){
-    searchResult = List.from(json['search_result']).map((e)=>SearchResult.fromJson(e)).toList();
+    searchResult = List.from(json['search_result']??[]).map((e)=>SearchResult.fromJson(e)).toList();
   }
 }
 
@@ -36,11 +36,11 @@ class SearchResult {
   late final String createdAt;
 
   SearchResult.fromJson(Map<String, dynamic> json){
-    categoryId = json['category_id'];
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    code = json['code'];
+    categoryId = json['category_id']??0;
+    id = json['id']??0;
+    title = json['title']??"";
+    description = json['description']??"";
+    code = json['code']??"";
     priceBeforeDiscount = json['price_before_discount'];
     price = json['price'];
     discount = json['discount'];
@@ -50,7 +50,6 @@ class SearchResult {
     unit = Unit.fromJson(json['unit']);
     images = List.castFrom<dynamic, dynamic>(json['images']);
     mainImage = json['main_image'];
-    createdAt = json['created_at'];
   }
 }
 
@@ -58,14 +57,10 @@ class Unit {
   late final int id;
   late final String name;
   late final String type;
-  late final String createdAt;
-  late final String updatedAt;
 
   Unit.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
     type = json['type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 }

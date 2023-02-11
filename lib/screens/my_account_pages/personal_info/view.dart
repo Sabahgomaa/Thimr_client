@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
+import 'package:thimar_client/shared/widgets/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input.dart';
+import 'package:thimar_client/shared/widgets/loading_progress.dart';
 
 import '../../../generated/locale_keys.g.dart';
 import 'bloc/bloc.dart';
 
-class PersonalScreen extends StatelessWidget {
-  PersonalScreen({Key? key}) : super(key: key);
+class PersonalView extends StatelessWidget {
+  PersonalView({Key? key}) : super(key: key);
   final bloc = KiwiContainer().resolve<ProfileBloc>()..add(GetProfileEvent());
 
   @override
@@ -27,7 +28,7 @@ class PersonalScreen extends StatelessWidget {
         bloc: bloc,
         builder: (context, state) {
           if (bloc.profileData == null) {
-            return Center(child: CircularProgressIndicator());
+            return LoadingProgress();
           } else {
             return ListView(
               children: [
@@ -108,7 +109,7 @@ class PersonalScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding:EdgeInsets.only(left: 8.r,right:16.r,top: 8.r,bottom: 15.r ),
-        child: CustomeButton(
+        child: CustomButton(
           pressed: () {},
           width: 345.w,
           height: 60.h,

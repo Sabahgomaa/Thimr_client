@@ -19,12 +19,11 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      SizedBox(
-        height: 50.h,
-      ),
+
       Container(
         width: 129.w,
         height: 125.h,
+        margin: EdgeInsets.only(top: 50.h),
         decoration:  BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Assets.images.logoApp.path),
@@ -45,11 +44,8 @@ class AuthHeader extends StatelessWidget {
           ),
         ),
       ),
-      SizedBox(
-        height: 5,
-      ),
       Padding(
-        padding: EdgeInsetsDirectional.only(start: 20.w, bottom: 20.h),
+        padding: EdgeInsetsDirectional.only(start: 20.w,end: isThirdLine?8.w:0, bottom: 20.h,top: 5),
         child: Align(
           alignment: AlignmentDirectional.centerStart,
           child: Text(
@@ -61,10 +57,6 @@ class AuthHeader extends StatelessWidget {
           ),
         ),
       ),
-      if (isThirdLine)
-        const SizedBox(
-          width: 8,
-        ),
       if (isThirdLine)
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -4,22 +4,20 @@ class AddressesStates {}
 
 class GetAddressesLoadingState extends AddressesStates {}
 
-class GetAddressesSuccessState extends AddressesStates {
-}
+class GetAddressesSuccessState extends AddressesStates {}
 
 class GetAddressesFailedState extends AddressesStates {
-  final String error;
+  final String? msg;
 
-  GetAddressesFailedState(this.error);
+  GetAddressesFailedState({this.msg});
 }
-
 
 class DeleteAddressesLoadingState extends AddressesStates {}
 
 class DeleteAddressesSuccessState extends AddressesStates {}
 
 class DeleteAddressesFailedState extends AddressesStates {
-  final String error;
+  final String? msg;
 
-  DeleteAddressesFailedState(this.error);
+  DeleteAddressesFailedState({this.msg});
 }

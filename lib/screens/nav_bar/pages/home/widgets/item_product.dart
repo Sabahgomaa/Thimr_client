@@ -2,80 +2,76 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thimar_client/gen/assets.gen.dart';
+import 'package:thimar_client/screens/auth_cycle/log_in/view.dart';
 import 'package:thimar_client/screens/cart/view.dart';
+import 'package:thimar_client/screens/show_product/bloc/bloc.dart';
+import 'package:thimar_client/shared/core/cach_helper.dart';
 import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
+import 'package:thimar_client/shared/widgets/toast.dart';
 
 import '../../../../../../shared/const/colors.dart';
 import '../../../../../generated/locale_keys.g.dart';
-import '../../../../cart/bloc/bloc.dart';
 
 class ItemProduct extends StatelessWidget {
   final bool? isCard;
   final int? id;
-  final String? title, priceBeforeDiscount, price, image, discount, ammount;
-  final bloc = KiwiContainer().resolve<CartBloc>();
+  final num discount;
+  final String title, priceBeforeDiscount, price, image;
+  final bloc = KiwiContainer().resolve<ShowProductBloc>();
 
-  ItemProduct(
-      {Key? key,
-      this.isCard,
-      this.title = "",
-      this.priceBeforeDiscount = '',
-      this.price = '',
-      this.image = 'Assets.images.product.path ,',
-      this.id,
-      this.discount,
-      this.ammount})
-      : super(key: key);
+  ItemProduct({
+    Key? key,
+    this.isCard,
+    this.title = "",
+    this.priceBeforeDiscount = '',
+    this.price = '',
+    this.image = 'Assets.images.product.path',
+    this.id,
+    this.discount = 0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.all(8.r),
+      margin: EdgeInsets.all(30.r),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(17.r)),
       child: Column(
         children: [
           Stack(
             children: [
-              Padding(
-                padding: EdgeInsets.only(right: 23.r, top: 2.r),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
-                  child: Image.network(
-                    image ?? Assets.images.product.path,
-                    fit: BoxFit.fill,
-                    width: 145.w,
-                    height: 117.h,
-                    // Assets.images.product.path,
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.fill,
+                  width: 145.w,
+                  height: 117.h,
+                  // Assets.images.product.path,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 2.r, left: 15.r),
-                child: Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.green,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.r),
-                        bottomRight: Radius.circular(10.r),
-                      ),
+              Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.green,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.r),
+                      bottomRight: Radius.circular(10.r),
                     ),
-                    width: 60.w,
-                    height: 20.h,
-                    child: Center(
-                      child: Text(
-                        discount!,
-                        style: TextStyle(
-                          color: AppColors.whiteApp,
-                          fontSize: 14.sp,
-                        ),
+                  ),
+                  width: 60.w,
+                  height: 20.h,
+                  child: Center(
+                    child: Text(
+                      "${discount * 100}%",
+                      // discount!,
+                      style: TextStyle(
+                        color: AppColors.whiteApp,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),
@@ -92,11 +88,12 @@ class ItemProduct extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 2.r, top: 2.r),
                     child: Text(
-                      title ?? 'طماطم',
+                      title,
                       style: TextStyle(
-                          color: AppColors.green,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold),
+                        color: AppColors.green,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -117,9 +114,10 @@ class ItemProduct extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 2.r, top: 2.r),
                   child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        price ?? "45",
+                        price,
                         style: TextStyle(
                           color: AppColors.green,
                           fontWeight: FontWeight.bold,
@@ -127,19 +125,16 @@ class ItemProduct extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 5.w,
+                        width: 3.w,
                       ),
                       Text(
-                        priceBeforeDiscount ?? '45',
+                        priceBeforeDiscount,
                         style: TextStyle(
                           color: AppColors.green,
                           fontSize: 13.sp,
                           decoration: TextDecoration.lineThrough,
                         ),
                         textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        width: 25.w,
                       ),
                     ],
                   ),
@@ -150,140 +145,151 @@ class ItemProduct extends StatelessWidget {
           if (isCard == true)
             BlocConsumer(
               bloc: bloc,
-              listener: (BuildContext context, Object? state) {
-                if (state is AddCardFailedState) {
-                  Fluttertoast.showToast(msg: state.error);
+              listener: (context, state) {
+                if (state is AddCartFailedState) {
+                  Toast.show(state.msg.toString(), context);
                 }
-                // if (state is CardSuccessState) {
-                //   MagicRouter.navigateTo(BasketScreen());
-                // }
               },
-              builder: (BuildContext context, state) {
+              builder: (context, state) {
                 return Center(
-                  child: CustomeButton(
-                    isLoading: state is AddCardLoadingState,
-                    // isLoading: true,
+                  child: CustomButton(
+                    isLoading: state is AddCartLoadingState,
                     pressed: () {
-                      bloc.add(AddCardCartEvent(id: id!));
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 210.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(17),
-                                    topRight: Radius.circular(17)),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(8.r),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(10.r),
-                                      child: Container(
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: Text(
-                                            LocaleKeys.productAddedSuccess.tr(),
-                                            style: TextStyle(
-                                              color: AppColors.green,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp,
+                      bloc.add(
+                        AddCartEvent(
+                          id: id!,
+                        ),
+                      );
+                      CacheHelper.getDeviceToken().isEmpty
+                          ? MagicRouter.navigateTo(LogInScreen())
+                          : showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height: 210.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(17),
+                                        topRight: Radius.circular(17)),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.r),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(10.r),
+                                          child: Container(
+                                            child: Align(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                LocaleKeys.productAddedSuccess
+                                                    .tr(),
+                                                style: TextStyle(
+                                                  color: AppColors.green,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 1,
-                                    ),
-                                    Row(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          child: Image.network(
-                                            image!,
-                                            fit: BoxFit.fill,
-                                            width: 69.w,
-                                            height: 64.h,
-                                          ),
+                                        Divider(
+                                          height: 1,
+                                        ),
+                                        Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              child: Image.network(
+                                                image,
+                                                fit: BoxFit.fill,
+                                                width: 69.w,
+                                                height: 64.h,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.r),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    title,
+                                                    style: TextStyle(
+                                                      color: AppColors.green,
+                                                      fontSize: 12.sp,
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: Text(
+                                                      "الكمية: 1",
+                                                      style: TextStyle(
+                                                        color: AppColors.grey,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: Text(
+                                                      "السعر: ${price}",
+                                                      style: TextStyle(
+                                                        color: AppColors.green,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          height: 1,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.all(8.r),
-                                          child: Column(
+                                          padding: EdgeInsets.all(12.r),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                title!,
-                                                style: TextStyle(
-                                                  color: AppColors.green,
-                                                  fontSize: 12.sp,
-                                                ),
+                                              CustomButton(
+                                                pressed: () {
+                                                  MagicRouter.navigateTo(
+                                                      CartScreen());
+                                                },
+                                                text:
+                                                    LocaleKeys.moveToCart.tr(),
+                                                fontSize: 14.sp,
+                                                height: 49.h,
+                                                width: 162.w,
                                               ),
-                                              Align(
-                                                alignment: Alignment.topRight,
-                                                child: Text(
-                                                  "الكمية: ${ammount!}",
-                                                  style: TextStyle(
-                                                    color: AppColors.grey,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topRight,
-                                                child: Text(
-                                                  "السعر: ${price!}",
-                                                  style: TextStyle(
-                                                    color: AppColors.green,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
+                                              CustomButton(
+                                                pressed: () {
+                                                  MagicRouter.pop();
+                                                },
+                                                text: LocaleKeys.exploreOffers
+                                                    .tr(),
+                                                fontSize: 14.sp,
+                                                height: 49.h,
+                                                width: 162.w,
+                                                textColor: AppColors.green,
+                                                buttonColor: Colors.white,
                                               ),
                                             ],
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
-                                    Divider(
-                                      height: 1,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(12.r),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CustomeButton(
-                                            pressed: () {
-                                              MagicRouter.navigateTo(
-                                                  CartScreen());
-                                            },
-                                            text: LocaleKeys.moveToCart.tr(),
-                                            fontSize: 14.sp,
-                                            height: 49.h,
-                                            width: 162.w,
-                                          ),
-                                          CustomeButton(
-                                            pressed: () {
-                                              MagicRouter.pop();
-                                            },
-                                            text: LocaleKeys.exploreOffers.tr(),
-                                            fontSize: 14.sp,
-                                            height: 49.h,
-                                            width: 162.w,
-                                            textColor: AppColors.green,
-                                            buttonColor: Colors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
+                                  ),
+                                );
+                              });
                     },
                     width: 115.w,
                     height: 30.h,

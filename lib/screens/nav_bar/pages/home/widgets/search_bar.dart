@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import '../../../../../generated/locale_keys.g.dart';
 
@@ -28,8 +29,8 @@ class SearchBar extends StatelessWidget {
           prefixIcon: Container(
             padding: const EdgeInsetsDirectional.only(
                 start: 18, end: 11, top: 10, bottom: 10),
-            child: Image.asset(
-              "assets/images/search_icon.png",
+            child: SvgPicture.asset(
+              "assets/images/svg_images/search.svg",
               height: 15.h,
               width: 15.w,
             ),

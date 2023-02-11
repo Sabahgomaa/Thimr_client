@@ -1,20 +1,18 @@
 class ShowOrdersData {
-  late final List<Data> data;
-  late final Links links;
-  late final Meta meta;
+  late final List<ShowOrder> data;
   late final String status;
   late final String message;
 
   ShowOrdersData.fromJson(Map<String, dynamic> json) {
-    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
-    links = Links.fromJson(json['links']);
-    meta = Meta.fromJson(json['meta']);
+    data = List.from(json['data'] ?? [])
+        .map((e) => ShowOrder.fromJson(e))
+        .toList();
     status = json['status'];
     message = json['message'];
   }
 }
 
-class Data {
+class ShowOrder {
   late final int id;
   late final String status;
   late final String date;
@@ -32,24 +30,25 @@ class Data {
   late final int isVip;
   late final int vipDiscountPercentage;
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    status = json['status'];
-    date = json['date'];
-    time = json['time'];
-    orderPrice = json['order_price'];
-    deliveryPrice = json['delivery_price'];
-    totalPrice = json['total_price'];
-    clientName = json['client_name'];
-    phone = null;
-    location = null;
-    deliveryPayer = json['delivery_payer'];
-    products =
-        List.from(json['products']).map((e) => Products.fromJson(e)).toList();
-    payType = json['pay_type'];
-    note = null;
-    isVip = json['is_vip'];
-    vipDiscountPercentage = json['vip_discount_percentage'];
+  ShowOrder.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? 1;
+    status = json['status'] ?? "";
+    date = json['date'] ?? "";
+    time = json['time'] ?? "";
+    orderPrice = json['order_price'] ?? 1;
+    deliveryPrice = json['delivery_price'] ?? 1;
+    totalPrice = json['total_price'] ?? 1;
+    clientName = json['client_name'] ?? "";
+    phone = json['phone'] ?? "";
+    location = json['location'] ?? "";
+    deliveryPayer = json['delivery_payer'] ?? "";
+    products = List.from(json['products'] ?? [])
+        .map((e) => Products.fromJson(e))
+        .toList();
+    payType = json['pay_type'] ?? "";
+    note = json['note'] ?? "";
+    isVip = json['is_vip'] ?? 1;
+    vipDiscountPercentage = json['vip_discount_percentage'] ?? 1;
   }
 }
 
@@ -58,43 +57,7 @@ class Products {
   late final String url;
 
   Products.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    url = json['url'];
-  }
-}
-
-class Links {
-  late final String first;
-  late final String last;
-  late final Null prev;
-  late final String next;
-
-  Links.fromJson(Map<String, dynamic> json) {
-    first = json['first'];
-    last = json['last'];
-    prev = null;
-    next = json['next'];
-  }
-}
-
-class Meta {
-  late final int currentPage;
-  late final int from;
-  late final int lastPage;
-  late final List<Links> links;
-  late final String path;
-  late final int perPage;
-  late final int to;
-  late final int total;
-
-  Meta.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
-    from = json['from'];
-    lastPage = json['last_page'];
-    links = List.from(json['links']).map((e) => Links.fromJson(e)).toList();
-    path = json['path'];
-    perPage = json['per_page'];
-    to = json['to'];
-    total = json['total'];
+    name = json['name'] ?? "";
+    url = json['url'] ?? "";
   }
 }

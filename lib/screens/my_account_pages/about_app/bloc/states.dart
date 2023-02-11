@@ -8,7 +8,7 @@ class GetAboutAppSuccessState extends AboutAppStates {
 }
 
 class GetAboutAppFailedState extends AboutAppStates {
-  final String error;
+  final String? msg;
 
-  GetAboutAppFailedState(this.error);
+  GetAboutAppFailedState({this.msg});
 }

@@ -5,10 +5,16 @@ class LogInStates {}
 class LoginLoadingState extends LogInStates {}
 
 class LoginSuccessState extends LogInStates {
+  final String msg;
+
+  LoginSuccessState({required this.msg});
 }
 
 class LoginFailedState extends LogInStates {
-  final String error;
+  final bool? isActive;
+  String? msg;
 
-  LoginFailedState(this.error);
+  LoginFailedState({this.isActive,this.msg});
+
+
 }

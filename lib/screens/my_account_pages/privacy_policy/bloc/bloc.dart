@@ -24,7 +24,7 @@ class PrivacyPolicyBloc extends Bloc<PrivacyPolicyEvents, PrivacyPolicyStates> {
       policyData = PolicyData.fromJson(res.response!.data);
       emit(GetPolicySuccessState());
     } else {
-      emit(GetPolicyFailedState(res.msg));
+      emit(GetPolicyFailedState(msg: res.msg));
     }
   }
 }

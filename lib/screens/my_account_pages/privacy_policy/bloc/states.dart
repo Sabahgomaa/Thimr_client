@@ -8,7 +8,7 @@ class GetPolicySuccessState extends PrivacyPolicyStates {
 }
 
 class GetPolicyFailedState extends PrivacyPolicyStates {
-  final String error;
+  final String? msg;
 
-  GetPolicyFailedState(this.error);
+  GetPolicyFailedState({this.msg});
 }

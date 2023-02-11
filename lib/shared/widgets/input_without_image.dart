@@ -16,7 +16,6 @@ class InputWithoutImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TextFormField(
-
         maxLines: 4,
         controller: controller,
         minLines: 1,

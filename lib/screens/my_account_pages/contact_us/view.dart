@@ -10,11 +10,11 @@ import 'package:thimar_client/shared/widgets/input_without_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../components/app_bar.dart';
+import '../../../shared/widgets/app_bar.dart';
 import 'bloc/bloc.dart';
 
-class ContactUs extends StatelessWidget {
-  ContactUs({Key? key}) : super(key: key);
+class ContactUsView extends StatelessWidget {
+  ContactUsView({Key? key}) : super(key: key);
   final bloc = KiwiContainer().resolve<ContactUsBloc>()
     ..add(GetContactUsEvent());
 
@@ -103,8 +103,9 @@ class ContactUs extends StatelessWidget {
                                               final url =
                                                   "tel:${bloc.contactUsData!.contacts.phone}";
 
-                                              await canLaunch(url)
-                                                  ? await launch(url)
+                                              await canLaunchUrl(Uri.parse(url))
+                                                  ? await launchUrl(
+                                                      Uri.parse(url))
                                                   : throw 'Could not launch $url';
                                             },
                                             child: Text(
@@ -129,8 +130,8 @@ class ContactUs extends StatelessWidget {
                                             onTap: () async {
                                               final url =
                                                   "mailto:${bloc.contactUsData!.contacts.email}";
-                                              await canLaunch(url)
-                                                  ? await launch(url)
+                                              await canLaunchUrl(Uri.parse(url))
+                                                  ? await launchUrl(Uri.parse(url))
                                                   : throw 'Could not launch $url';
                                             },
                                             child: Text(
@@ -191,7 +192,7 @@ class ContactUs extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.r),
-                            child: CustomeButton(
+                            child: CustomButton(
                                 text: LocaleKeys.send.tr(),
                                 fontSize: 15.sp,
                                 textColor: AppColors.whiteApp,

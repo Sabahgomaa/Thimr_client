@@ -8,9 +8,9 @@ class GetProfileSuccessState extends ProfileStates {
 }
 
 class GetProfileFailedState extends ProfileStates {
-  final String error;
+  final String? msg;
 
-  GetProfileFailedState(this.error);
+  GetProfileFailedState({this.msg});
 }
 
 class EditProfileLoadingState extends ProfileStates {}
@@ -18,7 +18,7 @@ class EditProfileLoadingState extends ProfileStates {}
 class EditProfileSuccessState extends ProfileStates {}
 
 class EditProfileFailedState extends ProfileStates {
-  final String error;
+  final String? msg;
 
-  EditProfileFailedState(this.error);
+  EditProfileFailedState({this.msg});
 }

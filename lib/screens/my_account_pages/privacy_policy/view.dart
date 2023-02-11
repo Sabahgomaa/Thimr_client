@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
+import 'package:thimar_client/shared/widgets/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import '../../../generated/locale_keys.g.dart';
 import 'bloc/bloc.dart';

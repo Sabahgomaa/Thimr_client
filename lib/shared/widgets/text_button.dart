@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
 import '../const/colors.dart';
+import 'loading_progress.dart';
 
-// ignore: must_be_immutable
-class CustomeTextButton extends StatelessWidget {
-  Function() function;
+class CustomTextButton extends StatelessWidget {
+  Function() press;
   String text;
   double fontSize;
-  Color fontcolor;
+  Color fontColor;
   FontWeight? fontWeight;
+  final bool isLoading;
 
-  CustomeTextButton(
+  CustomTextButton(
       {Key? key,
       required this.text,
-      required this.function,
+      required this.press,
       required this.fontSize,
       this.fontWeight,
-      this.fontcolor = AppColors.grey})
+      this.fontColor = AppColors.grey,
+      this.isLoading = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: function,
-      child: Text(
-        text.toUpperCase(),
-        style: TextStyle(
-          color: fontcolor,
-          fontWeight: fontWeight,
-          fontSize: fontSize,
-          fontFamily: "Tajawal",
-
-        ),
-      ),
-    );
+    return isLoading
+        ? Center(
+            child: LoadingProgress(),
+          )
+        : TextButton(
+            onPressed: press,
+            child: Text(
+              text.toUpperCase(),
+              style: TextStyle(
+                color: fontColor,
+                fontWeight: fontWeight,
+                fontSize: fontSize,
+                fontFamily: "Tajawal",
+              ),
+            ),
+          );
   }
 }

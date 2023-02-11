@@ -6,8 +6,8 @@ import '../../../../generated/locale_keys.g.dart';
 import 'components/list_current_order.dart';
 import 'components/list_finished_order.dart';
 
-class OrderScreen extends StatelessWidget {
-  OrderScreen({Key? key}) : super(key: key);
+class OrderView extends StatelessWidget {
+  OrderView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class OrderScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(8.r),
           child: Column(children: [
-            // give the tab bar a height [can change hheight to preferred height]
             Container(
               height: 54.08.h,
               width: 342.w,
@@ -31,7 +30,6 @@ class OrderScreen extends StatelessWidget {
                   border: Border.all(color: AppColors.greyLite),
                   borderRadius: BorderRadius.circular(10.r)),
               child: TabBar(
-                // give the indicator a decoration (color and border radius)
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                     10.r,

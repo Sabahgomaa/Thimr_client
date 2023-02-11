@@ -3,7 +3,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
@@ -12,22 +11,23 @@ import 'package:thimar_client/screens/my_account_pages/addresses/view.dart';
 import 'package:thimar_client/screens/my_account_pages/contact_us/view.dart';
 import 'package:thimar_client/screens/my_account_pages/payments/view.dart';
 import 'package:thimar_client/screens/my_account_pages/personal_info/view.dart';
-import 'package:thimar_client/screens/my_account_pages/pocket_money/view.dart';
 import 'package:thimar_client/screens/my_account_pages/privacy_policy/view.dart';
 import 'package:thimar_client/screens/my_account_pages/suggestions_and_%20complaints/view.dart';
 import 'package:thimar_client/shared/core/cach_helper.dart';
 import 'package:thimar_client/shared/router.dart';
+import 'package:thimar_client/shared/widgets/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../shared/const/colors.dart';
 import '../../../../generated/locale_keys.g.dart';
 import '../../../auth_cycle/log_in/view.dart';
+import '../../../my_account_pages/Wallet/view.dart';
 import '../../../my_account_pages/faqs/view.dart';
 import '../../../my_account_pages/personal_info/bloc/bloc.dart';
 import 'bloc/bloc.dart';
 import 'components/item_my_account.dart';
 
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+class ProfileView extends StatelessWidget {
+  ProfileView({Key? key}) : super(key: key);
   final blocLogout = KiwiContainer().resolve<LogoutBloc>();
   final blocProfile = KiwiContainer().resolve<ProfileBloc>()
     ..add(GetProfileEvent());
@@ -116,22 +116,22 @@ class ProfileScreen extends StatelessWidget {
                   ItemMyAccount(
                     title: LocaleKeys.personalInfo.tr(),
                     image: Assets.images.profileInfo.path,
-                    page: PersonalScreen(),
+                    page: PersonalView(),
                   ),
                   ItemMyAccount(
                     title: LocaleKeys.wallet.tr(),
                     image: Assets.images.boket.path,
-                    page: PocketMoney(),
+                    page: WalletView(),
                   ),
                   ItemMyAccount(
                     title: LocaleKeys.addresses.tr(),
                     image: Assets.images.addresses.path,
-                    page: AddressesScreen(),
+                    page: AddressesView(),
                   ),
                   ItemMyAccount(
                     title: LocaleKeys.payment.tr(),
                     image: Assets.images.pay.path,
-                    page: PaymentsScreen(),
+                    page: PaymentsView(),
                   ),
                 ],
               ),
@@ -142,7 +142,7 @@ class ProfileScreen extends StatelessWidget {
                   ItemMyAccount(
                     title: LocaleKeys.knownQuestions.tr(),
                     image: Assets.images.rebeatQuestion.path,
-                    page: FAQsScreen(),
+                    page: FAQsView(),
                   ),
                   ItemMyAccount(
                     title: LocaleKeys.privacyPolicy.tr(),
@@ -152,7 +152,7 @@ class ProfileScreen extends StatelessWidget {
                   ItemMyAccount(
                     title: LocaleKeys.contactWithUs.tr(),
                     image: Assets.images.contentUs.path,
-                    page: ContactUs(),
+                    page: ContactUsView(),
                   ),
                   ItemMyAccount(
                     title: LocaleKeys.suggestions.tr(),
@@ -189,17 +189,15 @@ class ProfileScreen extends StatelessWidget {
                   ItemMyAccount(
                     title: LocaleKeys.aboutApp.tr(),
                     image: Assets.images.aboutUs.path,
-                    page: AboutApp(),
+                    page: AboutAppView(),
                   ),
                   ListTile(
                     onTap: () async {
-                      // if(Locale('') == Locale('ar')){
-                      //   await context.setLocale(Locale('en'));
-                      // }
-                      // if (Locale('') == Locale('en')) {
-                      //   await context.setLocale(Locale('ar'));
-                      // }
-                      await context.setLocale(Locale('ar'));
+                      if (context.locale == Locale('ar')) {
+                        await context.setLocale(Locale('en'));
+                      } else {
+                        await context.setLocale(Locale('ar'));
+                      }
                     },
                     leading: Image.asset(
                       Assets.images.changeLanguage.path,
@@ -215,10 +213,6 @@ class ProfileScreen extends StatelessWidget {
                       Assets.images.rowBack.path,
                     ),
                   ),
-                  // ItemMyAccount(
-                  //   title: LocaleKeys.changeLanguage.tr(),
-                  //   image: Assets.images.changeLanguage.path,
-                  // ),
                   ItemMyAccount(
                     title: LocaleKeys.conditions.tr(),
                     image: Assets.images.policy.path,
@@ -226,8 +220,8 @@ class ProfileScreen extends StatelessWidget {
                   ListTile(
                     onTap: () async {
                       final url = 'https://pub.dev/packages/url_launcher';
-                      await canLaunch(url)
-                          ? await launch(url)
+                      await canLaunchUrl(Uri.parse(url))
+                          ? await launchUrl(Uri.parse(url))
                           : throw 'Could not launch $url';
                     },
                     leading: Image.asset(
@@ -251,7 +245,7 @@ class ProfileScreen extends StatelessWidget {
               bloc: blocLogout,
               listener: (context, state) {
                 if (state is LogoutFailedState) {
-                  Fluttertoast.showToast(msg: state.error);
+                  Toast.show(state.msg.toString(), context);
                 }
                 if (state is LogoutSuccessState) {
                   MagicRouter.navigateTo(LogInScreen());

@@ -4,7 +4,7 @@ class AddressesData {
   late final String message;
 
   AddressesData.fromJson(Map<String, dynamic> json){
-    addresses = List.from(json['data']).map((e)=>Addresses.fromJson(e)).toList();
+    addresses = List.from(json['data']??[]).map((e)=>Addresses.fromJson(e)).toList();
     status = json['status'];
     message = json['message'];
   }

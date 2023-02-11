@@ -9,9 +9,9 @@ part 'events.dart';
 part 'states.dart';
 
 class LogoutBloc extends Bloc<LogoutEvent, LogoutStates> {
-
   final serverGate = ServerGate();
   final deviceToken = FirebaseMessaging.instance.getToken();
+
   LogoutBloc() : super(LogoutStates()) {
     on<LogoutEvent>(_logout);
   }
@@ -25,7 +25,7 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutStates> {
     if (response.success) {
       emit(LogoutSuccessState());
     } else {
-      emit(LogoutFailedState(response.msg));
+      emit(LogoutFailedState(msg: response.msg));
     }
   }
 }

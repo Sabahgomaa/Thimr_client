@@ -12,8 +12,8 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/boket.png
-  AssetGenImage get boket => const AssetGenImage('assets/images/boket.png');
+  /// File path: assets/images/Ic_date.png
+  AssetGenImage get icDate => const AssetGenImage('assets/images/Ic_date.png');
 
   /// File path: assets/images/about us.png
   AssetGenImage get aboutUs =>
@@ -21,6 +21,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/add.png
   AssetGenImage get add => const AssetGenImage('assets/images/add.png');
+
+  /// File path: assets/images/add_icon.png
+  AssetGenImage get addIcon =>
+      const AssetGenImage('assets/images/add_icon.png');
 
   /// File path: assets/images/addresses.png
   AssetGenImage get addresses =>
@@ -35,6 +39,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/back_row.png
   AssetGenImage get backRow =>
       const AssetGenImage('assets/images/back_row.png');
+
+  /// File path: assets/images/boket.png
+  AssetGenImage get boket => const AssetGenImage('assets/images/boket.png');
+
+  $AssetsImagesBottomNavGen get bottomNav => const $AssetsImagesBottomNavGen();
 
   /// File path: assets/images/calling_contact_us.png
   AssetGenImage get callingContactUs =>
@@ -72,6 +81,8 @@ class $AssetsImagesGen {
   /// File path: assets/images/edit.png
   AssetGenImage get edit => const AssetGenImage('assets/images/edit.png');
 
+  $AssetsImagesEmptyGen get empty => const $AssetsImagesEmptyGen();
+
   /// File path: assets/images/favorite.png
   AssetGenImage get favorite =>
       const AssetGenImage('assets/images/favorite.png');
@@ -86,29 +97,34 @@ class $AssetsImagesGen {
   /// File path: assets/images/home.png
   AssetGenImage get home => const AssetGenImage('assets/images/home.png');
 
-  /// File path: assets/images/ic_password.png
-  AssetGenImage get iconUnlock =>
-      const AssetGenImage('assets/images/ic_password.png');
-
-  /// File path: assets/images/ic_user.png
-  AssetGenImage get iconUser =>
-      const AssetGenImage('assets/images/ic_user.png');
-
   /// File path: assets/images/ic_add.png
-  AssetGenImage get iconAdd =>
-      const AssetGenImage('assets/images/ic_add.png');
+  AssetGenImage get icAdd => const AssetGenImage('assets/images/ic_add.png');
 
   /// File path: assets/images/ic_minus.png
-  AssetGenImage get iconMinus =>
+  AssetGenImage get icMinus =>
       const AssetGenImage('assets/images/ic_minus.png');
 
+  /// File path: assets/images/ic_password.png
+  AssetGenImage get icPassword =>
+      const AssetGenImage('assets/images/ic_password.png');
+
   /// File path: assets/images/ic_phone.png
-  AssetGenImage get iconPhone =>
+  AssetGenImage get icPhone =>
       const AssetGenImage('assets/images/ic_phone.png');
 
   /// File path: assets/images/ic_report.png
-  AssetGenImage get iconReport =>
+  AssetGenImage get icReport =>
       const AssetGenImage('assets/images/ic_report.png');
+
+  /// File path: assets/images/ic_shopping_cart.png
+  AssetGenImage get icShoppingCart =>
+      const AssetGenImage('assets/images/ic_shopping_cart.png');
+
+  /// File path: assets/images/ic_time.png
+  AssetGenImage get icTime => const AssetGenImage('assets/images/ic_time.png');
+
+  /// File path: assets/images/ic_user.png
+  AssetGenImage get icUser => const AssetGenImage('assets/images/ic_user.png');
 
   /// File path: assets/images/location.png
   AssetGenImage get location =>
@@ -128,9 +144,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/logot.png
   AssetGenImage get logot => const AssetGenImage('assets/images/logot.png');
 
+  /// File path: assets/images/logout_ic.png
+  AssetGenImage get logoutIc =>
+      const AssetGenImage('assets/images/logout_ic.png');
+
   /// File path: assets/images/map_contact_us.png
   AssetGenImage get mapContactUs =>
       const AssetGenImage('assets/images/map_contact_us.png');
+
+  /// File path: assets/images/master_card.png
+  AssetGenImage get masterCard =>
+      const AssetGenImage('assets/images/master_card.png');
 
   /// File path: assets/images/message_contact_us.png
   AssetGenImage get messageContactUs =>
@@ -138,6 +162,11 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/minus.png
   AssetGenImage get minus => const AssetGenImage('assets/images/minus.png');
+
+  /// File path: assets/images/money.png
+  AssetGenImage get money => const AssetGenImage('assets/images/money.png');
+
+  $AssetsImagesMyAccountGen get myAccount => const $AssetsImagesMyAccountGen();
 
   /// File path: assets/images/notification.png
   AssetGenImage get notification =>
@@ -202,9 +231,19 @@ class $AssetsImagesGen {
   AssetGenImage get shareApp =>
       const AssetGenImage('assets/images/share app.png');
 
+  /// File path: assets/images/splash_bg.png
+  AssetGenImage get splashBg =>
+      const AssetGenImage('assets/images/splash_bg.png');
+
+  /// File path: assets/images/splash_main_bg.jpg
+  AssetGenImage get splashMainBg =>
+      const AssetGenImage('assets/images/splash_main_bg.jpg');
+
   /// File path: assets/images/sugesstion.png
   AssetGenImage get sugesstion =>
       const AssetGenImage('assets/images/sugesstion.png');
+
+  $AssetsImagesSvgImagesGen get svgImages => const $AssetsImagesSvgImagesGen();
 
   /// File path: assets/images/user.png
   AssetGenImage get user => const AssetGenImage('assets/images/user.png');
@@ -214,13 +253,15 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        boket,
+        icDate,
         aboutUs,
         add,
+        addIcon,
         addresses,
         alaim,
         back,
         backRow,
+        boket,
         callingContactUs,
         card1,
         card2,
@@ -235,20 +276,25 @@ class $AssetsImagesGen {
         favoriteIcon,
         green,
         home,
-        iconUnlock,
-        iconUser,
-        iconAdd,
-        iconMinus,
-        iconPhone,
-        iconReport,
+        icAdd,
+        icMinus,
+        icPassword,
+        icPhone,
+        icReport,
+        icShoppingCart,
+        icTime,
+        icUser,
         location,
         locationContactUs,
         logo,
         logoApp,
         logot,
+        logoutIc,
         mapContactUs,
+        masterCard,
         messageContactUs,
         minus,
+        money,
         notification,
         order,
         password,
@@ -267,6 +313,8 @@ class $AssetsImagesGen {
         sala,
         searchIcon,
         shareApp,
+        splashBg,
+        splashMainBg,
         sugesstion,
         user,
         visa
@@ -284,6 +332,207 @@ class $AssetsTranslationsGen {
 
   /// List of all assets
   List<String> get values => [ar, en];
+}
+
+class $AssetsImagesBottomNavGen {
+  const $AssetsImagesBottomNavGen();
+
+  /// File path: assets/images/bottom_nav/cart.svg
+  String get cart => 'assets/images/bottom_nav/cart.svg';
+
+  /// File path: assets/images/bottom_nav/favoriates.svg
+  String get favoriates => 'assets/images/bottom_nav/favoriates.svg';
+
+  /// File path: assets/images/bottom_nav/home.svg
+  String get home => 'assets/images/bottom_nav/home.svg';
+
+  /// File path: assets/images/bottom_nav/my_account.svg
+  String get myAccount => 'assets/images/bottom_nav/my_account.svg';
+
+  /// File path: assets/images/bottom_nav/my_orders.svg
+  String get myOrders => 'assets/images/bottom_nav/my_orders.svg';
+
+  /// File path: assets/images/bottom_nav/notifications.svg
+  String get notifications => 'assets/images/bottom_nav/notifications.svg';
+
+  /// File path: assets/images/bottom_nav/search.svg
+  String get search => 'assets/images/bottom_nav/search.svg';
+
+  /// List of all assets
+  List<String> get values =>
+      [cart, favoriates, home, myAccount, myOrders, notifications, search];
+}
+
+class $AssetsImagesEmptyGen {
+  const $AssetsImagesEmptyGen();
+
+  /// File path: assets/images/empty/empty_cart.svg
+  String get emptyCart => 'assets/images/empty/empty_cart.svg';
+
+  /// File path: assets/images/empty/empty_favs.svg
+  String get emptyFavs => 'assets/images/empty/empty_favs.svg';
+
+  /// File path: assets/images/empty/empty_notifications.svg
+  String get emptyNotifications =>
+      'assets/images/empty/empty_notifications.svg';
+
+  /// File path: assets/images/empty/empty_orders.svg
+  String get emptyOrders => 'assets/images/empty/empty_orders.svg';
+
+  /// File path: assets/images/empty/empty_search.svg
+  String get emptySearch => 'assets/images/empty/empty_search.svg';
+
+  /// List of all assets
+  List<String> get values =>
+      [emptyCart, emptyFavs, emptyNotifications, emptyOrders, emptySearch];
+}
+
+class $AssetsImagesMyAccountGen {
+  const $AssetsImagesMyAccountGen();
+
+  /// File path: assets/images/my_account/about_app.png
+  AssetGenImage get aboutApp =>
+      const AssetGenImage('assets/images/my_account/about_app.png');
+
+  /// File path: assets/images/my_account/addresses.png
+  AssetGenImage get addresses =>
+      const AssetGenImage('assets/images/my_account/addresses.png');
+
+  /// File path: assets/images/my_account/change_language.png
+  AssetGenImage get changeLanguage =>
+      const AssetGenImage('assets/images/my_account/change_language.png');
+
+  /// File path: assets/images/my_account/conditions.png
+  AssetGenImage get conditions =>
+      const AssetGenImage('assets/images/my_account/conditions.png');
+
+  /// File path: assets/images/my_account/contact_us.png
+  AssetGenImage get contactUs =>
+      const AssetGenImage('assets/images/my_account/contact_us.png');
+
+  /// File path: assets/images/my_account/go.png
+  AssetGenImage get go =>
+      const AssetGenImage('assets/images/my_account/go.png');
+
+  /// File path: assets/images/my_account/logout.png
+  AssetGenImage get logout =>
+      const AssetGenImage('assets/images/my_account/logout.png');
+
+  /// File path: assets/images/my_account/my_account_header.png
+  AssetGenImage get myAccountHeader =>
+      const AssetGenImage('assets/images/my_account/my_account_header.png');
+
+  /// File path: assets/images/my_account/payment.png
+  AssetGenImage get payment =>
+      const AssetGenImage('assets/images/my_account/payment.png');
+
+  /// File path: assets/images/my_account/personl_info.png
+  AssetGenImage get personlInfo =>
+      const AssetGenImage('assets/images/my_account/personl_info.png');
+
+  /// File path: assets/images/my_account/privacy.png
+  AssetGenImage get privacy =>
+      const AssetGenImage('assets/images/my_account/privacy.png');
+
+  /// File path: assets/images/my_account/questions.png
+  AssetGenImage get questions =>
+      const AssetGenImage('assets/images/my_account/questions.png');
+
+  /// File path: assets/images/my_account/rate.png
+  AssetGenImage get rate =>
+      const AssetGenImage('assets/images/my_account/rate.png');
+
+  /// File path: assets/images/my_account/share.png
+  AssetGenImage get share =>
+      const AssetGenImage('assets/images/my_account/share.png');
+
+  /// File path: assets/images/my_account/suggestions.png
+  AssetGenImage get suggestions =>
+      const AssetGenImage('assets/images/my_account/suggestions.png');
+
+  /// File path: assets/images/my_account/wallet.png
+  AssetGenImage get wallet =>
+      const AssetGenImage('assets/images/my_account/wallet.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        aboutApp,
+        addresses,
+        changeLanguage,
+        conditions,
+        contactUs,
+        go,
+        logout,
+        myAccountHeader,
+        payment,
+        personlInfo,
+        privacy,
+        questions,
+        rate,
+        share,
+        suggestions,
+        wallet
+      ];
+}
+
+class $AssetsImagesSvgImagesGen {
+  const $AssetsImagesSvgImagesGen();
+
+  /// File path: assets/images/svg_images/app_logo.png
+  AssetGenImage get appLogo =>
+      const AssetGenImage('assets/images/svg_images/app_logo.png');
+
+  /// File path: assets/images/svg_images/credit_card.svg
+  String get creditCard => 'assets/images/svg_images/credit_card.svg';
+
+  /// File path: assets/images/svg_images/date.png
+  AssetGenImage get date =>
+      const AssetGenImage('assets/images/svg_images/date.png');
+
+  /// File path: assets/images/svg_images/filter.svg
+  String get filter => 'assets/images/svg_images/filter.svg';
+
+  /// File path: assets/images/svg_images/line.svg
+  String get line => 'assets/images/svg_images/line.svg';
+
+  /// File path: assets/images/svg_images/money.svg
+  String get money => 'assets/images/svg_images/money.svg';
+
+  /// File path: assets/images/svg_images/papers.svg
+  String get papers => 'assets/images/svg_images/papers.svg';
+
+  /// File path: assets/images/svg_images/rest.png
+  AssetGenImage get rest =>
+      const AssetGenImage('assets/images/svg_images/rest.png');
+
+  /// File path: assets/images/svg_images/saudi.svg
+  String get saudi => 'assets/images/svg_images/saudi.svg';
+
+  /// File path: assets/images/svg_images/search.svg
+  String get search => 'assets/images/svg_images/search.svg';
+
+  /// File path: assets/images/svg_images/time.png
+  AssetGenImage get time =>
+      const AssetGenImage('assets/images/svg_images/time.png');
+
+  /// File path: assets/images/svg_images/wallet.svg
+  String get wallet => 'assets/images/svg_images/wallet.svg';
+
+  /// List of all assets
+  List<dynamic> get values => [
+        appLogo,
+        creditCard,
+        date,
+        filter,
+        line,
+        money,
+        papers,
+        rest,
+        saudi,
+        search,
+        time,
+        wallet
+      ];
 }
 
 class Assets {

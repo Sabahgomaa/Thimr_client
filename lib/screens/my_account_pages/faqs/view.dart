@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/generated/locale_keys.g.dart';
 
-import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
+import 'package:thimar_client/shared/widgets/app_bar.dart';
 
 import '../../../shared/const/colors.dart';
 import 'boc/bloc.dart';
 
-class FAQsScreen extends StatelessWidget {
-  FAQsScreen({Key? key}) : super(key: key);
+class FAQsView extends StatelessWidget {
+  FAQsView({Key? key}) : super(key: key);
   final bloc = KiwiContainer().resolve<FAQSBloc>()..add(GetFAQsEvent());
 
   Widget build(BuildContext context) {

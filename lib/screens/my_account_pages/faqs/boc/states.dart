@@ -8,7 +8,7 @@ class GetFAQsSuccessState extends FAQSStates {
 }
 
 class GetFAQsFailedState extends FAQSStates {
-  final String error;
+  final String? msg;
 
-  GetFAQsFailedState(this.error);
+  GetFAQsFailedState({this.msg});
 }

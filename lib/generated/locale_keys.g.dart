@@ -82,7 +82,7 @@ abstract class  LocaleKeys {
   static const addresses = 'addresses';
   static const IdInfo = 'IdInfo';
   static const creditCardNum = 'creditCardNum';
-  static const address = 'address';
+  static const address = 'addresses';
   static const payment = 'payment';
   static const addingCard = 'addingCard';
   static const nameOfCardOnwer = 'nameOfCardOnwer';

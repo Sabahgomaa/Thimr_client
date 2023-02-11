@@ -8,13 +8,14 @@ import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/router.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../add_addresses/view.dart';
-import '../components/app_bar.dart';
+import '../../../shared/widgets/app_bar.dart';
+import '../../../shared/widgets/loading_progress.dart';
+import '../../add_address/view.dart';
 import 'bloc/bloc.dart';
-import 'components/item_addresses.dart';
+import 'components/item_address.dart';
 
-class AddressesScreen extends StatelessWidget {
-  AddressesScreen({Key? key}) : super(key: key);
+class AddressesView extends StatelessWidget {
+  AddressesView({Key? key}) : super(key: key);
 
   final bloc = KiwiContainer().resolve<AddressesBloc>()
     ..add(GetAddressesEvent());
@@ -28,18 +29,23 @@ class AddressesScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: BlocBuilder(
         bloc: bloc,
+        buildWhen: (previous, current) =>
+        current is GetAddressesLoadingState ||
+            current is GetAddressesSuccessState,
         builder: (context, state) {
-          if (bloc.addressesData == null) {
-            return Center(child: CircularProgressIndicator());
+          if (state is GetAddressesLoadingState) {
+            return LoadingProgress();
           } else {
-            return ListView.builder(
-              itemCount: bloc.addressesData!.addresses.length,
-              itemBuilder: (context, index) {
-                return ItemAddress(
-                  model: bloc.addressesData!.addresses[index],
-                );
-              },
-            );
+            return bloc.addressesData ==null
+                ? Text("empty")
+                : ListView.builder(
+                    itemCount: bloc.addressesData!.addresses.length,
+                    itemBuilder: (context, index) {
+                      return ItemAddress(
+                        model: bloc.addressesData!.addresses[index],
+                      );
+                    },
+                  );
           }
         },
       ),
@@ -52,9 +58,9 @@ class AddressesScreen extends StatelessWidget {
           borderType: BorderType.RRect,
           color: AppColors.green,
           radius: Radius.circular(10.r),
-          child: CustomeButton(
+          child: CustomButton(
             pressed: () {
-              MagicRouter.navigateTo(AddAddresses());
+              MagicRouter.navigateTo(AddAddress());
             },
             width: 370.w,
             height: 54.h,

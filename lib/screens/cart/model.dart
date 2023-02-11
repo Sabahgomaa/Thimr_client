@@ -14,7 +14,7 @@ class CartData {
   late final String message;
 
   CartData.fromJson(Map<String, dynamic> json) {
-    data = List.from(json['data']).map((e) => Carts.fromJson(e)).toList();
+    data = List.from(json['data']??[]).map((e) => Carts.fromJson(e)).toList();
     totalPriceBeforeDiscount = json['total_price_before_discount']??"";
     totalDiscount = json['total_discount']??"";
     totalPriceWithVat = json['total_price_with_vat']??"";
@@ -41,13 +41,13 @@ class Carts {
   late final int remainingAmount;
 
   Carts.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    image = json['image'];
-    amount = json['amount'];
-    priceBeforeDiscount = json['price_before_discount'];
-    discount = json['discount'];
-    price = json['price'];
-    remainingAmount = json['remaining_amount'];
+    id = json['id']??1;
+    title = json['title']??"";
+    image = json['image']??"";
+    amount = json['amount']??1;
+    priceBeforeDiscount = json['price_before_discount']??1;
+    discount = json['discount']??1;
+    price = json['price']??1;
+    remainingAmount = json['remaining_amount']??1;
   }
 }

@@ -22,7 +22,7 @@ class FAQSBloc extends Bloc<FAQSEvents, FAQSStates> {
       faQsData = FAQsData.fromJson(res.response!.data);
       emit(GetFAQsSuccessState());
     } else {
-      emit(GetFAQsFailedState(res.msg));
+      emit(GetFAQsFailedState(msg: res.msg));
     }
   }
 }

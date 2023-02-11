@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:thimar_client/shared/widgets/loading_progress.dart';
 
 import '../const/colors.dart';
 
-class CustomeButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final double? width;
   final double fontSize;
   final double? height;
@@ -18,8 +19,9 @@ class CustomeButton extends StatelessWidget {
   final TextDirection? textDirection;
   final String? fontFamily;
   final bool isLoading;
+  final DecorationImage? image;
 
-  CustomeButton(
+  CustomButton(
       {this.text = '',
       required this.pressed,
       this.isUpperCase,
@@ -33,14 +35,17 @@ class CustomeButton extends StatelessWidget {
       this.textDirection,
       this.fontSize = 20,
       this.isLoading = false,
-      this.borderColor = AppColors.whiteApp});
+      this.borderColor = AppColors.whiteApp,
+      this.image});
 
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? Center(
             child: Container(
-                height: 8.h, width: 8.w, child: CircularProgressIndicator()),
+                width: width ?? 343.w,
+                height: height ?? 60.h,
+                child: LoadingProgress()),
           )
         : Stack(children: [
             Container(
@@ -53,12 +58,15 @@ class CustomeButton extends StatelessWidget {
               child: MaterialButton(
                 onPressed: pressed,
                 child: Center(
-                  child: Text(text,
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: fontSize,
-                        decoration: decoration,
-                      )),
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: fontSize,
+                      decoration: decoration,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

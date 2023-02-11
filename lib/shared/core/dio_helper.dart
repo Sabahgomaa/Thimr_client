@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:quick_log/quick_log.dart';
 import 'package:thimar_client/shared/core/cach_helper.dart';
 
-
 Logger log = const Logger("");
 
 class ServerGate {
@@ -34,7 +33,7 @@ class ServerGate {
   }) async {
     if (body != null) {
       body.removeWhere(
-            (key, value) => body[key] == null || body[key] == "",
+        (key, value) => body[key] == null || body[key] == "",
       );
     }
     if (body != null) {
@@ -55,7 +54,7 @@ class ServerGate {
           sendTimeout: 5000,
           receiveTimeout: 5000,
           contentType:
-          "multipart/form-data; boundary=<calculated when request is sent>",
+              "multipart/form-data; boundary=<calculated when request is sent>",
         ),
       );
 
@@ -71,13 +70,14 @@ class ServerGate {
       return handleServerError(err);
     }
   }
+
   Future<CustomResponse> put({
     required String url,
     Map<String, dynamic>? body,
   }) async {
     if (body != null) {
       body.removeWhere(
-            (key, value) => body[key] == null || body[key] == "",
+        (key, value) => body[key] == null || body[key] == "",
       );
     }
     if (body != null) {
@@ -98,7 +98,7 @@ class ServerGate {
           sendTimeout: 5000,
           receiveTimeout: 5000,
           contentType:
-          "multipart/form-data; boundary=<calculated when request is sent>",
+              "multipart/form-data; boundary=<calculated when request is sent>",
         ),
       );
 
@@ -122,7 +122,7 @@ class ServerGate {
   }) async {
     if (params != null) {
       params.removeWhere(
-              (key, value) => params[key] == null || params[key] == "");
+          (key, value) => params[key] == null || params[key] == "");
     }
     try {
       Response response = await dio.get(
@@ -157,12 +157,19 @@ class ServerGate {
         return CustomResponse(
           errType: 2,
           statusCode: err.response!.statusCode ?? 500,
-          // msg: LocaleKeys.serverError.tr(),
+          msg: "مشكله في الخدم",
           response: null,
         );
       }
       if (err.response!.statusCode == 401) {
         CacheHelper.removeUserToken();
+        return CustomResponse(
+          statusCode: err.response?.statusCode ?? 500,
+          errType:3,
+          msg: "please login first",
+          error: null,
+          response: null,
+        );
         // CacheHelper.setIfIsVisitor(true);
         // navigateTo(navigator.currentContext, page: HomeScreen(), leaveHistory: false);
       }
@@ -188,7 +195,7 @@ class ServerGate {
       return CustomResponse(
         statusCode: err.response?.statusCode ?? 500,
         errType: 0,
-        // msg: LocaleKeys.noConnection.tr(),
+        msg: "LocaleKeys.noConnection.tr(),",
         error: null,
         response: null,
       );
@@ -197,7 +204,7 @@ class ServerGate {
         return CustomResponse(
           statusCode: 402,
           errType: 0,
-          // msg: LocaleKeys.noConnection.tr(),
+          msg: "LocaleKeys.noConnection.tr()",
           error: null,
           response: null,
         );
@@ -205,7 +212,7 @@ class ServerGate {
       return CustomResponse(
         statusCode: 402,
         errType: 2,
-        // msg: LocaleKeys.serverError.tr(),
+        msg: "LocaleKeys.serverError.tr()",
         error: null,
         response: null,
       );

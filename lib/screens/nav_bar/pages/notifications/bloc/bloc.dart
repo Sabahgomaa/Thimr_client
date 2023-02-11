@@ -23,7 +23,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationStates> {
       notificationsData = NotificationsData.fromJson(res.response!.data);
       emit(GetNotificationSuccessState());
     } else {
-      emit(GetNotificationFailedState(res.msg));
+      emit(GetNotificationFailedState(msg: res.msg));
     }
   }
 }

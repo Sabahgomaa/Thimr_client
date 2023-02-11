@@ -23,7 +23,7 @@ class AboutAppBloc extends Bloc<AboutAppEvents, AboutAppStates> {
       aboutData = AboutData.fromJson(res.response!.data);
       emit(GetAboutAppSuccessState());
     } else {
-      emit(GetAboutAppFailedState(res.msg));
+      emit(GetAboutAppFailedState(msg: res.msg));
     }
   }
 }

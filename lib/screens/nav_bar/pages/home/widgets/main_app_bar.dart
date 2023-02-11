@@ -6,16 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/shared/const/colors.dart';
+import 'package:thimar_client/shared/core/cach_helper.dart';
 import 'package:thimar_client/shared/router.dart';
-
+import 'package:thimar_client/shared/widgets/loading_progress.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../generated/locale_keys.g.dart';
 import '../../../../../shared/widgets/button.dart';
-import '../../../../add_addresses/view.dart';
-import '../../../../cart/bloc/bloc.dart';
+import '../../../../add_address/view.dart';
 import '../../../../cart/view.dart';
 import '../../../../my_account_pages/addresses/bloc/bloc.dart';
-import '../../../../my_account_pages/addresses/components/item_addresses.dart';
+import '../../../../my_account_pages/addresses/components/item_address.dart';
+import '../bloc/bloc.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   MainAppBar({Key? key}) : super(key: key);
@@ -30,8 +31,7 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MainAppBarState extends State<MainAppBar> {
   final blocAddresses = KiwiContainer().resolve<AddressesBloc>()
     ..add(GetAddressesEvent());
-
-  final blocCart = KiwiContainer().resolve<CartBloc>()..add(GetCartEvent());
+  final bloc = KiwiContainer().resolve<HomeBloc>()..add(GetProductsEvent());
   String selectAddresses = '';
 
   @override
@@ -88,12 +88,18 @@ class _MainAppBarState extends State<MainAppBar> {
                               ),
                               Container(
                                 height: 300.h,
-                                child: BlocBuilder(
+                                child: BlocConsumer(
                                   bloc: blocAddresses,
+                                  listener: (context, state) {
+                                    if (state is GetAddressesLoadingState) {
+                                     LoadingProgress();
+                                    }
+                                  },
                                   builder: (context, state) {
-                                    if (blocAddresses.addressesData == null) {
+                                    if (blocAddresses
+                                        .addressesData!.addresses.isEmpty) {
                                       return Center(
-                                          child: CircularProgressIndicator());
+                                          child: Text('Addresses Empty'));
                                     } else {
                                       return ListView.builder(
                                         itemCount: blocAddresses
@@ -118,9 +124,9 @@ class _MainAppBarState extends State<MainAppBar> {
                                   borderType: BorderType.RRect,
                                   color: AppColors.green,
                                   radius: Radius.circular(10.r),
-                                  child: CustomeButton(
+                                  child: CustomButton(
                                     pressed: () {
-                                      MagicRouter.navigateTo(AddAddresses());
+                                      MagicRouter.navigateTo(AddAddress());
                                     },
                                     width: 370.w,
                                     height: 54.h,
@@ -145,13 +151,15 @@ class _MainAppBarState extends State<MainAppBar> {
                 },
                 child: Column(
                   children: [
-                    Text(
-                      LocaleKeys.deliverTo.tr(),
-                      style: TextStyle(
-                        color: AppColors.green,
-                        fontSize: 14.sp,
-                      ),
-                    ),
+                    blocAddresses.addressesData == null
+                        ? SizedBox()
+                        : Text(
+                            LocaleKeys.deliverTo.tr(),
+                            style: TextStyle(
+                              color: AppColors.green,
+                              fontSize: 14.sp,
+                            ),
+                          ),
                     Expanded(
                       child: Text(
                         '${selectAddresses}',
@@ -159,7 +167,6 @@ class _MainAppBarState extends State<MainAppBar> {
                           color: AppColors.green,
                           fontSize: 14.sp,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     )
                   ],
@@ -167,37 +174,42 @@ class _MainAppBarState extends State<MainAppBar> {
               ),
             ),
             BlocBuilder(
-              bloc: blocCart,
+              bloc: bloc,
               builder: (BuildContext context, state) {
-                if (blocCart.cartData == null) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return GestureDetector(
-                    onTap: () {
-                      MagicRouter.navigateTo(CartScreen());
-                    },
-                    child: Badge(
-                      toAnimate: false,
-                      shape: BadgeShape.circle,
-                      badgeColor: AppColors.green,
-                      borderRadius: BorderRadius.circular(8),
-                      position: BadgePosition.bottomStart(bottom: 20, start: 2),
-                      badgeContent: Text(
-                          blocCart.cartData!.data.length.toString(),
-                          style: TextStyle(color: Colors.white)),
-                      child: Container(
-                        margin: EdgeInsets.all(5.r),
-                        height: 37.h,
-                        width: 32.w,
-                        decoration: BoxDecoration(
-                            color: AppColors.greyLite.withOpacity(.1),
-                            borderRadius: BorderRadius.circular(8.r),
-                            image: DecorationImage(
-                                image: AssetImage(Assets.images.sala.path))),
-                      ),
-                    ),
-                  );
-                }
+                return CacheHelper.getUserToken().isEmpty
+                    ? Text('')
+                    : GestureDetector(
+                        onTap: () {
+                          MagicRouter.navigateTo(CartScreen());
+                        },
+                        child: Badge(
+                          toAnimate: false,
+                          shape: BadgeShape.circle,
+                          badgeColor: AppColors.green,
+                          borderRadius: BorderRadius.circular(8),
+                          position:
+                              BadgePosition.bottomStart(bottom: 20, start: 2),
+                          badgeContent: (bloc.productData == null)
+                              ? Container(
+                                  width: 10.w,
+                                  height: 10.h,
+                                  child: LoadingProgress(),
+                                )
+                              : Text(bloc.productData!.userCartCount.toString(),
+                                  style: TextStyle(color: Colors.white)),
+                          child: Container(
+                            margin: EdgeInsets.all(5.r),
+                            height: 37.h,
+                            width: 32.w,
+                            decoration: BoxDecoration(
+                                color: AppColors.greyLite.withOpacity(.1),
+                                borderRadius: BorderRadius.circular(8.r),
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage(Assets.images.sala.path))),
+                          ),
+                        ),
+                      );
               },
             ),
           ],

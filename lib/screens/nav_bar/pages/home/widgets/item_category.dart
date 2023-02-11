@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/shared/router.dart';
 import '../../../../../../shared/const/colors.dart';
-import '../bloc/models/categories_model.dart';
+import '../../../../../models/categories_model.dart';
 import '../components/category_details.dart';
 
 class ItemCategory extends StatelessWidget {

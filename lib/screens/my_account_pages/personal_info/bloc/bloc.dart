@@ -33,7 +33,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileStates> {
       phoneController.text = profileData!.data.phone.toString();
       emit(GetProfileSuccessState());
     } else {
-      emit(GetProfileFailedState(res.msg));
+      emit(GetProfileFailedState(msg: res.msg));
     }
   }
 

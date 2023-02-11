@@ -1,28 +1,36 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thimar_client/screens/nav_bar/pages/home/bloc/models/product_model.dart';
-import 'package:thimar_client/screens/nav_bar/pages/home/bloc/models/slider_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:thimar_client/models/product_model.dart';
+import 'package:thimar_client/models/slider_model.dart';
 import 'package:thimar_client/shared/core/dio_helper.dart';
-import 'models/categories_details_model.dart';
-import 'models/categories_model.dart';
+import '../../../../../models/categories_details_model.dart';
+import '../../../../../models/categories_model.dart';
 
 part 'events.dart';
 
 part 'states.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeStates> {
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
+
   CategoriesData? categoriesModel;
   CategoriesDetailsData? categoriesDetailsData;
   SliderData? sliderData;
+  List<Products> products = [];
+  List<Products> newProducts = [];
   ProductData? productData;
+  int pageNumber = 1;
+  bool paginationEnded = false;
   final serverGate = ServerGate();
 
-  //GetCategoriesDetails
   HomeBloc() : super(HomeStates()) {
     on<GetCategoriesEvent>(_getCategories);
     on<GetCategoriesDetailsEvent>(_getCategoriesDetails);
     on<GetSliderEvent>(_getSlider);
     on<GetProductsEvent>(_getProduct);
+    on<StartPaginationEvent>(_pagination);
   }
 
   Future<void> _getCategories(
@@ -30,10 +38,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeStates> {
     emit(GetCategoriesLoadingState());
     final res = await serverGate.getFromServer(url: "categories");
     if (res.success) {
+      //  List data = List<Model>.from((res.response?.data??[]).map((e)=>Model.fromJson(e)));
       categoriesModel = CategoriesData.fromJson(res.response!.data);
       emit(GetCategoriesSuccessState());
     } else {
-      emit(GetCategoriesFailedState(res.msg));
+      emit(GetCategoriesFailedState(msg: res.msg));
     }
   }
 
@@ -46,7 +55,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeStates> {
           CategoriesDetailsData.fromJson(res.response!.data);
       emit(GetCategoriesDetailsSuccessState());
     } else {
-      emit(GetCategoriesDetailsFailedState(res.msg));
+      emit(GetCategoriesDetailsFailedState(msg: res.msg));
     }
   }
 
@@ -58,19 +67,57 @@ class HomeBloc extends Bloc<HomeEvent, HomeStates> {
       sliderData = SliderData.fromJson(res.response!.data);
       emit(GetSliderSuccessState());
     } else {
-      emit(GetSliderFailedState(res.msg));
+      emit(GetSliderFailedState(msg: res.msg));
     }
   }
 
   FutureOr<void> _getProduct(
       GetProductsEvent event, Emitter<HomeStates> emit) async {
     emit(GetProductsLoadingState());
+    //newProducts.clear();
     final res = await serverGate.getFromServer(url: "products");
     if (res.success) {
       productData = ProductData.fromJson(res.response!.data);
+      newProducts = productData!.products;
+      products.addAll(newProducts);
       emit(GetProductsSuccessState());
     } else {
-      emit(GetProductsFailedState(res.msg));
+      emit(GetProductsFailedState(msg: res.msg));
     }
+  }
+
+  void reload() async {
+    newProducts.clear();
+    pageNumber++;
+    add(GetProductsEvent());
+    if (newProducts == products) {
+      newProducts.clear();
+    }
+    refreshController.loadComplete();
+  }
+
+  void refresh() async {
+    products.clear();
+    pageNumber = 1;
+    add(GetProductsEvent());
+    refreshController.refreshCompleted();
+  }
+
+  FutureOr<void> _pagination(
+      StartPaginationEvent event, Emitter<HomeStates> emit) async {
+    emit(GetProductsLoadingState());
+    await Future.delayed(const Duration(seconds: 3)); // streaming get next page
+
+    int length = products.length > 10 ? 10 : products.length;
+    for (int i = 0; i < length; i++) {
+      final item = products.removeAt(i);
+      newProducts.add(item);
+    }
+    if (products.isEmpty) {
+      paginationEnded = true;
+    } else {
+      pageNumber++;
+    }
+    emit(GetProductsSuccessState());
   }
 }

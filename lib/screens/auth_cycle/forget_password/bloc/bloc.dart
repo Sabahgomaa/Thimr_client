@@ -11,6 +11,11 @@ class ForgetPasswordBloc
   final serverGate = ServerGate();
   final phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  String? phoneNumberText;
+
+  clearFiled() {
+    phoneController.clear();
+  }
 
   ForgetPasswordBloc() : super(ForgetPasswordStates()) {
     on<ForgetPasswordStart>(_forgetPassword);
@@ -19,13 +24,18 @@ class ForgetPasswordBloc
   Future<void> _forgetPassword(
       ForgetPasswordStart event, Emitter<ForgetPasswordStates> emit) async {
     emit(ForgetPasswordLoadingState());
-    final response = await serverGate.sendToServer(url: "forget_password", body: {
-      'phone': phoneController.text.trim(),
+    final response =
+        await serverGate.sendToServer(url: "forget_password", body: {
+      'phone': phoneNumberText ?? phoneController.text.trim(),
     });
     if (response.success) {
       emit(ForgetPasswordSuccessState());
     } else {
-      emit(ForgetPasswordFailedState(response.msg));
+      emit(
+        ForgetPasswordFailedState(
+          msg: response.msg.toString(),
+        ),
+      );
     }
   }
 }

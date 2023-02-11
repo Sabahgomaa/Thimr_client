@@ -22,7 +22,7 @@ class FavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteStates> {
       favoriteData = FavoriteData.fromJson(res.response!.data);
       emit(GetFavoriteSuccessState());
     } else {
-      emit(GetFavoriteFailedState(res.msg));
+      emit(GetFavoriteFailedState(msg: res.msg));
     }
   }
 }

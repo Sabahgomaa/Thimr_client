@@ -7,9 +7,9 @@ class GetCategoriesLoadingState extends HomeStates {}
 class GetCategoriesSuccessState extends HomeStates {}
 
 class GetCategoriesFailedState extends HomeStates {
-  final String error;
+  final String? msg;
 
-  GetCategoriesFailedState(this.error);
+  GetCategoriesFailedState({this.msg});
 }
 
 class GetCategoriesDetailsLoadingState extends HomeStates {}
@@ -17,9 +17,9 @@ class GetCategoriesDetailsLoadingState extends HomeStates {}
 class GetCategoriesDetailsSuccessState extends HomeStates {}
 
 class GetCategoriesDetailsFailedState extends HomeStates {
-  final String error;
+  final String? msg;
 
-  GetCategoriesDetailsFailedState(this.error);
+  GetCategoriesDetailsFailedState({this.msg});
 }
 
 class GetSliderLoadingState extends HomeStates {}
@@ -27,9 +27,9 @@ class GetSliderLoadingState extends HomeStates {}
 class GetSliderSuccessState extends HomeStates {}
 
 class GetSliderFailedState extends HomeStates {
-  final String error;
+  final String? msg;
 
-  GetSliderFailedState(this.error);
+  GetSliderFailedState({this.msg});
 }
 
 class GetProductsLoadingState extends HomeStates {}
@@ -37,7 +37,7 @@ class GetProductsLoadingState extends HomeStates {}
 class GetProductsSuccessState extends HomeStates {}
 
 class GetProductsFailedState extends HomeStates {
-  final String error;
+  final String? msg;
 
-  GetProductsFailedState(this.error);
+  GetProductsFailedState({this.msg});
 }

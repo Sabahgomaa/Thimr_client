@@ -4,8 +4,6 @@ class AddressesEvent {}
 
 class GetAddressesEvent extends AddressesEvent {}
 
-
-
 class DeleteAddressesEvent extends AddressesEvent {
   int id;
 

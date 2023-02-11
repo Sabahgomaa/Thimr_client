@@ -3,15 +3,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
-import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
+import 'package:thimar_client/shared/widgets/app_bar.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
 import 'package:thimar_client/shared/widgets/input_without_image.dart';
 
 import '../../../generated/locale_keys.g.dart';
 
-class PaymentsScreen extends StatelessWidget {
-  const PaymentsScreen({Key? key}) : super(key: key);
+class PaymentsView extends StatelessWidget {
+  const PaymentsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class PaymentsScreen extends StatelessWidget {
               borderType: BorderType.RRect,
               color: AppColors.green,
               radius: Radius.circular(10.r),
-              child: CustomeButton(
+              child: CustomButton(
                 pressed: () {
                   showModalBottomSheet<void>(
                       context: context,
@@ -97,7 +97,7 @@ class PaymentsScreen extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8.r),
-                                    child: CustomeButton(
+                                    child: CustomButton(
                                         text: LocaleKeys.addingCard.tr(),
                                         fontSize: 15.sp,
                                         textColor: AppColors.whiteApp,

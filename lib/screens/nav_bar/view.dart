@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:thimar_client/screens/nav_bar/pages/favorites/view.dart';
 import 'package:thimar_client/screens/nav_bar/pages/home/view.dart';
 import 'package:thimar_client/screens/nav_bar/pages/notifications/view.dart';
@@ -10,21 +11,21 @@ import 'package:thimar_client/shared/const/colors.dart';
 
 import '../../generated/locale_keys.g.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class NavBarScreen extends StatefulWidget {
+  const NavBarScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<NavBarScreen> createState() => _NavBarScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _NavBarScreenState extends State<NavBarScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
-    const HomeScreen(),
-    OrderScreen(),
-    NotificationsScreen(),
-    FavoritesScreen(),
-    ProfileScreen(),
+    HomeView(),
+    OrderView(),
+    NotificationsView(),
+    FavoritesView(),
+    ProfileView(),
   ];
   List<String> labels = [
     LocaleKeys.home.tr(),
@@ -45,35 +46,36 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: AppColors.greyLite,
-          selectedItemColor: Colors.white,
-          selectedLabelStyle:
-              TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-          backgroundColor: AppColors.green,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          items: List.generate(
-              icons.length,
-              (index) => BottomNavigationBarItem(
-                    backgroundColor: const Color(0xff4C8613),
-                    icon: Padding(
-                      padding: EdgeInsets.only(bottom: 7.h),
-                      child: Image.asset(
-                        'assets/images/${icons[index]}.png',
-                        height: 21.h,
-                        width: 21.w,
-                        color: index == currentIndex
-                            ? Colors.white
-                            : AppColors.greyLite,
-                      ),
-                    ),
-                    label: labels[index],
-                  ))),
+        unselectedItemColor: AppColors.greyLite,
+        selectedItemColor: Colors.white,
+        selectedLabelStyle:
+            TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+        backgroundColor: AppColors.green,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: List.generate(
+          icons.length,
+          (index) => BottomNavigationBarItem(
+            backgroundColor: AppColors.green,
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 7.h),
+              child: SvgPicture.asset(
+                'assets/images/svg_images/${icons[index]}.svg',
+                height: 21.h,
+                width: 21.w,
+                color:
+                    index == currentIndex ? Colors.white : AppColors.greyLite,
+              ),
+            ),
+            label: labels[index],
+          ),
+        ),
+      ),
       body: screens[currentIndex],
     );
   }

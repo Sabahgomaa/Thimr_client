@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class CacheHelper {
   static late SharedPreferences _sharedPreferences;
   static const _language = 'LANGUAGE';
@@ -156,5 +154,9 @@ class CacheHelper {
 
   static removeUserToken() async {
     await _sharedPreferences.remove(_userToken);
+  }
+
+  static Future setIfIsVisitor(bool isVisitor) async {
+    await _sharedPreferences.setBool("isVisitor", isVisitor);
   }
 }

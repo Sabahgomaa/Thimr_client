@@ -8,9 +8,9 @@ class GetOrdersFinishedSuccessState extends OrdersStates {
 }
 
 class GetOrdersFinishedFailedState extends OrdersStates {
-  final String error;
+  final String? msg;
 
-  GetOrdersFinishedFailedState(this.error);
+  GetOrdersFinishedFailedState({this.msg});
 }
 
 class GetOrdersCurrentLoadingState extends OrdersStates {}
@@ -18,7 +18,7 @@ class GetOrdersCurrentLoadingState extends OrdersStates {}
 class GetOrdersCurrentSuccessState extends OrdersStates {}
 
 class GetOrdersCurrentFailedState extends OrdersStates {
-  final String error;
+  final String? msg;
 
-  GetOrdersCurrentFailedState(this.error);
+  GetOrdersCurrentFailedState({this.msg});
 }

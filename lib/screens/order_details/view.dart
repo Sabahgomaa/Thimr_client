@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:thimar_client/gen/assets.gen.dart';
-import 'package:thimar_client/screens/my_account_pages/components/app_bar.dart';
+import 'package:thimar_client/shared/widgets/app_bar.dart';
 import 'package:thimar_client/screens/nav_bar/pages/orders/components/summary_order_details.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 import 'package:thimar_client/shared/widgets/button.dart';
@@ -11,22 +11,22 @@ import 'package:thimar_client/shared/widgets/button.dart';
 import '../../generated/locale_keys.g.dart';
 import 'bloc/bloc.dart';
 
-class DetailsOrder extends StatefulWidget {
+class DetailsOrderView extends StatefulWidget {
   final int id;
-  final  bool isCurrent;
+  final bool isCurrent;
 
-
-  DetailsOrder({
-    required this.id, required,
-  required this.isCurrent
+  DetailsOrderView({
+    required this.id,
+    required this.isCurrent,
   });
 
   @override
-  State<DetailsOrder> createState() => _DetailsOrderState();
+  State<DetailsOrderView> createState() => _DetailsOrderViewState();
 }
 
-class _DetailsOrderState extends State<DetailsOrder> {
+class _DetailsOrderViewState extends State<DetailsOrderView> {
   final bloc = KiwiContainer().resolve<ShowOrderBloc>();
+
   @override
   void initState() {
     super.initState();
@@ -43,16 +43,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Padding(
-            //   padding: EdgeInsets.all(8.r),
-            //   child: Container(
-            //     width: 342.w,
-            //     height: 110.h,
-            //     child: ItemOrder(
-            //       currentOrders:bloc.orderData.data.,
-            //     ),
-            //   ),
-            // ),
+
             Padding(
               padding: EdgeInsets.only(
                 bottom: 8.r,
@@ -141,7 +132,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
               height: 100.h,
             ),
             if (widget.isCurrent == true)
-              CustomeButton(
+              CustomButton(
                 pressed: () {},
                 width: 343.w,
                 height: 60.h,
@@ -152,7 +143,7 @@ class _DetailsOrderState extends State<DetailsOrder> {
                 textColor: AppColors.red,
               ),
             if (widget.isCurrent == false)
-              CustomeButton(
+              CustomButton(
                 pressed: () {},
                 width: 343.w,
                 height: 60.h,

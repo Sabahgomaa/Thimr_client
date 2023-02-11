@@ -8,7 +8,7 @@ class GetNotificationSuccessState extends NotificationStates {
 }
 
 class GetNotificationFailedState extends NotificationStates {
-  final String error;
+  final String? msg;
 
-  GetNotificationFailedState(this.error);
+  GetNotificationFailedState({this.msg});
 }

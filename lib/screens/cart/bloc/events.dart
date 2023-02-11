@@ -6,8 +6,16 @@ class GetCartEvent extends CartEvents {}
 
 class ApplyCouponCartEvent extends CartEvents {}
 
-class AddCardCartEvent extends CartEvents {
+class DeleteCartEvent extends CartEvents {
   int id;
 
-  AddCardCartEvent({required this.id});
+  DeleteCartEvent({required this.id});
 }
+// class AddCartEvent extends CartEvents {
+//   final int id;
+//
+//
+//   AddCartEvent({required this.id,});
+// }
+
+

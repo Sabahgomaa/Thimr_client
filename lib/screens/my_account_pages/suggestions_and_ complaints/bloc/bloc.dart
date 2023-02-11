@@ -6,10 +6,8 @@ part 'events.dart';
 
 part 'states.dart';
 
-class SuggestionsAndComplaintsBloc
-    extends Bloc<SuggestionsAndComplaintsEvents,
-        SuggestionsAndComplaintsStates> {
-
+class SuggestionsAndComplaintsBloc extends Bloc<SuggestionsAndComplaintsEvents,
+    SuggestionsAndComplaintsStates> {
   final serverGate = ServerGate();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -24,15 +22,15 @@ class SuggestionsAndComplaintsBloc
       Emitter<SuggestionsAndComplaintsStates> emit) async {
     emit(SuggestionsAndComplaintsLoadingState());
     CustomResponse response =
-    await serverGate.sendToServer(url: "contact", body: {
+        await serverGate.sendToServer(url: "contact", body: {
       'fullname': fullNameController.text,
       'phone': phoneController.text,
       'content': contentController.text,
     });
     if (response.success) {
-      emit(SuggestionsAndComplaintsSuccessState(response.msg));
+      emit(SuggestionsAndComplaintsSuccessState(msg: response.msg));
     } else {
-      emit(SuggestionsAndComplaintsFailedState(response.msg));
+      emit(SuggestionsAndComplaintsFailedState(msg: response.msg));
     }
   }
 }

@@ -7,6 +7,7 @@ class ShowProductEvent extends ShowProductEvents {
 
   ShowProductEvent({required this.id});
 }
+
 class AddToFavoriteEvent extends ShowProductEvents {
   int id;
 
@@ -18,3 +19,18 @@ class RemoveToFavoriteEvent extends ShowProductEvents {
 
   RemoveToFavoriteEvent({required this.id});
 }
+
+class GetProductRateEvent extends ShowProductEvents {
+  int id;
+
+  GetProductRateEvent({required this.id});
+}
+
+class AddCartEvent extends ShowProductEvents {
+  final int id;
+
+
+  AddCartEvent({required this.id,});
+}
+
+

@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thimar_client/shared/core/dio_helper.dart';
 
@@ -13,10 +11,9 @@ part 'states.dart';
 class AddressesBloc extends Bloc<AddressesEvent, AddressesStates> {
   final serverGate = ServerGate();
   AddressesData? addressesData;
-  // double lat = 2.2, lang = 2.2;
-   String? type, location;
-  // final phoneNumberController = TextEditingController();
-  // final descriptionController = TextEditingController();
+  String? type, location;
+
+
 
   AddressesBloc() : super(AddressesStates()) {
     on<GetAddressesEvent>(_getAddresses);
@@ -32,24 +29,21 @@ class AddressesBloc extends Bloc<AddressesEvent, AddressesStates> {
       addressesData = AddressesData.fromJson(res.response!.data);
       emit(GetAddressesSuccessState());
     } else {
-      emit(GetAddressesFailedState(res.msg));
+      emit(GetAddressesFailedState(msg: res.msg));
     }
   }
 
-
   FutureOr<void> _deleteAddresses(
       DeleteAddressesEvent event, Emitter<AddressesStates> emit) async {
-    final response =
-        await serverGate.sendToServer(url: "client/addresses/${event.id}", body: {
+    final response = await serverGate
+        .sendToServer(url: "client/addresses/${event.id}", body: {
       'type': type,
       "_method": "DELETE",
     });
     if (response.success) {
-      // AddAddressesData user =AddAddressesData.fromJson(response.response!.data);
-
       emit(DeleteAddressesSuccessState());
     } else {
-      emit(DeleteAddressesFailedState(response.msg));
+      emit(DeleteAddressesFailedState(msg: response.msg));
     }
   }
 }

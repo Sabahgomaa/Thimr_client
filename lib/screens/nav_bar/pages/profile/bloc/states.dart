@@ -8,7 +8,7 @@ class LogoutSuccessState extends LogoutStates {
 }
 
 class LogoutFailedState extends LogoutStates {
-  final String error;
+  final String? msg;
 
-  LogoutFailedState(this.error);
+  LogoutFailedState({this.msg});
 }

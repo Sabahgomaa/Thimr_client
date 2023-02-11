@@ -8,7 +8,7 @@ class GetFavoriteSuccessState extends GetFavoriteStates {
 }
 
 class GetFavoriteFailedState extends GetFavoriteStates {
-  final String error;
+  final String? msg;
 
-  GetFavoriteFailedState(this.error);
+  GetFavoriteFailedState({this.msg});
 }

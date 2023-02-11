@@ -29,7 +29,7 @@ class ContactUsBloc extends Bloc<ContactUsEvents, ContactUsStates> {
       contactUsData = ContactUsData.fromJson(res.response!.data);
       emit(GetContactUsSuccessState());
     } else {
-      emit(GetContactUsFailedState(res.msg));
+      emit(GetContactUsFailedState(msg: res.msg));
     }
   }
 
@@ -43,9 +43,9 @@ class ContactUsBloc extends Bloc<ContactUsEvents, ContactUsStates> {
       'content': contentController.text.trim(),
     });
     if (response.success) {
-      emit(ContactUsSuccessState(response.msg));
+      emit(ContactUsSuccessState(msg: response.msg));
     } else {
-      emit(ContactUsFailedState(response.msg));
+      emit(ContactUsFailedState(msg: response.msg));
     }
   }
 }

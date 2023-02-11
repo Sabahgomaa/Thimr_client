@@ -9,17 +9,17 @@ import 'package:thimar_client/screens/nav_bar/view.dart';
 import 'package:thimar_client/shared/core/cach_helper.dart';
 
 // ignore: must_be_immutable
-class SplashScreen extends StatefulWidget {
+class SplashView extends StatefulWidget {
   Widget? page;
 
   String? token = CacheHelper.getUserToken();
-   SplashScreen({Key? key}) : super(key: key);
+   SplashView({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
@@ -34,8 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   route() {
     // SplashCubit().getData(context);
-    if (widget.token != null) {
-      widget.page = HomeView();
+    if (widget.token!.isNotEmpty) {
+      widget.page = NavBarScreen();
     } else {
       widget.page = LogInScreen();
     }

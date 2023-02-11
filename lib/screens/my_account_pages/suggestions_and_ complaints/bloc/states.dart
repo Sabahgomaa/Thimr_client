@@ -7,14 +7,14 @@ class SuggestionsAndComplaintsLoadingState
 
 class SuggestionsAndComplaintsSuccessState
     extends SuggestionsAndComplaintsStates {
-  final String msg;
+  final String? msg;
 
-  SuggestionsAndComplaintsSuccessState(this.msg);
+  SuggestionsAndComplaintsSuccessState({this.msg});
 }
 
 class SuggestionsAndComplaintsFailedState
     extends SuggestionsAndComplaintsStates {
-  final String error;
+  final String? msg;
 
-  SuggestionsAndComplaintsFailedState(this.error);
+  SuggestionsAndComplaintsFailedState({this.msg});
 }

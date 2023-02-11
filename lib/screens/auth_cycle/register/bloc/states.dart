@@ -18,7 +18,11 @@ class RegisterFailedState extends RegisterStates {
 
 class GetCitiesLoadingState extends RegisterStates {}
 
-class GetCitiesSuccessState extends RegisterStates {}
+class GetCitiesSuccessState extends RegisterStates {
+  final CityDataModel model;
+
+  GetCitiesSuccessState({required this.model});
+}
 
 class GetCitiesFailedState extends RegisterStates {
   final String error;

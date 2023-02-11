@@ -8,7 +8,7 @@ class VerifySuccessState extends VerifyStates {
 }
 
 class VerifyFailedState extends VerifyStates {
-  final String error;
+  final String msg;
 
-  VerifyFailedState(this.error);
+  VerifyFailedState({required this.msg});
 }

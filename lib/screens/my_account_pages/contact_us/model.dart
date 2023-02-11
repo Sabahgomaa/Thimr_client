@@ -4,7 +4,7 @@ class ContactUsData {
   late final String message;
 
   ContactUsData.fromJson(Map<String, dynamic> json) {
-    contacts = Contacts.fromJson(json['data']);
+    contacts = Contacts.fromJson(json['data'] ?? []);
     status = json['status'];
     message = json['message'];
   }

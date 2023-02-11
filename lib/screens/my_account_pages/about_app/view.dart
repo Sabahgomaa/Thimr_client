@@ -9,10 +9,10 @@ import 'package:thimar_client/generated/locale_keys.g.dart';
 import 'package:thimar_client/screens/my_account_pages/about_app/bloc/bloc.dart';
 import 'package:thimar_client/shared/const/colors.dart';
 
-import '../components/app_bar.dart';
+import '../../../shared/widgets/app_bar.dart';
 
-class AboutApp extends StatelessWidget {
-  AboutApp({Key? key}) : super(key: key);
+class AboutAppView extends StatelessWidget {
+  AboutAppView({Key? key}) : super(key: key);
   final bloc = KiwiContainer().resolve<AboutAppBloc>()..add(GetAboutAppEvent());
 
   @override
@@ -38,7 +38,7 @@ class AboutApp extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(8.r),
                       child:
-                          Html(data: '${bloc.aboutData!.data.about}', style: {
+                          Html(data: '${bloc.aboutData!.aboutApp.about}', style: {
                         "p": Style(
                           color: AppColors.greyLite,
                           fontSize: FontSize(15.sp),

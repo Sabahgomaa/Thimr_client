@@ -8,9 +8,8 @@ part 'states.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordStates> {
   final serverGate = ServerGate();
-  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-  final code = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   ResetPasswordBloc() : super(ResetPasswordStates()) {
@@ -22,14 +21,14 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordStates> {
     emit(ResetPasswordLoadingState());
     final response =
         await serverGate.sendToServer(url: "reset_password", body: {
-      'phone': phoneController.text.trim(),
+      'phone': event.phone,
+      'code': event.code,
       'password': passwordController.text.trim(),
-      'code': code.text.trim(),
     });
     if (response.success) {
       emit(ResetPasswordSuccessState());
     } else {
-      emit(ResetPasswordFailedState(response.msg));
+      emit(ResetPasswordFailedState(msg: response.msg.toString()));
     }
   }
 }

@@ -1,9 +1,9 @@
-class CitesData {
+class CityDataModel {
   late final List<Cities> data;
   late final String status;
   late final String message;
 
-  CitesData.fromJson(Map<String, dynamic> json) {
+  CityDataModel.fromJson(Map<String, dynamic> json) {
     data = List.from(json['data']).map((e) => Cities.fromJson(e)).toList();
     status = json['status'];
     message = json['message'];

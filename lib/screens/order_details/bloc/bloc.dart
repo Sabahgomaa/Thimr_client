@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thimar_client/shared/core/dio_helper.dart';
 
-import '../../nav_bar/pages/orders/model.dart';
+import '../../nav_bar/pages/orders/models/current_data.dart';
 
 part 'events.dart';
 
@@ -10,7 +10,7 @@ part 'states.dart';
 class ShowOrderBloc extends Bloc<ShowOrderEvent, ShowOrderStates> {
 
   final serverGate = ServerGate();
-  OrderData? orderData;
+  CurrentOrderData? orderData;
   ShowOrderBloc() : super(ShowOrderStates()) {
     on<GetShowOrderEvent>(_getShowOrder);
   }
@@ -20,7 +20,7 @@ class ShowOrderBloc extends Bloc<ShowOrderEvent, ShowOrderStates> {
     emit(GetShowOrderLoadingState());
     final res = await serverGate.getFromServer(url: "client/orders/${event.id}");
     if (res.success) {
-      orderData = OrderData.fromJson(res.response!.data);
+      orderData = CurrentOrderData.fromJson(res.response!.data);
       emit(GetShowOrderSuccessState());
     } else {
       emit(GetShowOrderFailedState(res.msg));
